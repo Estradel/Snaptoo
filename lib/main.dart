@@ -50,13 +50,13 @@ Future<void> main() async {
   runApp(const MyApp());
 
   // Create a File that will then be used to create an ML-Kit's InputImage.
-  File file = await getImageFileFromAssets('images/bouteille.jpg');
+  File file = await getImageFileFromAssets('images/bus.jpg');                         // FOR SOME TESTING, THERE 3 DIFFERENT IMAGES IN THE ASSETS
 
   // Retrieve the labels ML-Kit detects for a given image file.
   List<Tuple3<String, int, double>> listLabel = await getImageLabels(file);
 
   // JUSTE UN PETIT PRINT POUR TESTER
-  print('\n\nLES LABELS DETECTES POUR L\'IMAGE DE BOUTEILLE : $listLabel\n\n\n');
+  print('\n\nLES LABELS DETECTES POUR L\'IMAGE CHOISIE : $listLabel\n\n\n');
 }
 
 class MyApp extends StatelessWidget {
@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text("Image from assets"),
         ),
-        body: Image.asset('assets/images/bouteille.jpg'), //   <-- image
+        body: Image.asset('assets/images/bus.jpg'),                                   // FOR SOME TESTING, THERE 3 DIFFERENT IMAGES IN THE ASSETS
       ),
     );
   }

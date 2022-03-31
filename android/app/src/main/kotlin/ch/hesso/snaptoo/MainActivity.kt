@@ -1,4 +1,4 @@
-package ch.hesso.snaptootemp
+package ch.hesso.snaptoo
 
 import io.flutter.embedding.android.FlutterActivity
 

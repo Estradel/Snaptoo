@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:snaptoo/blocs/slice_counter/slice_bloc.dart';
 
 import 'blocs/pizza_counter/pizza_bloc.dart';
+import 'blocs/slice_counter/slice_bloc.dart';
 import 'models/pizza.dart';
 import 'models/slice.dart';
 

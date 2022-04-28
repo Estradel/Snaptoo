@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -6,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:test_projet/views/collection_view.dart';
 import 'package:test_projet/views/note_view.dart';
+import 'package:tuple/tuple.dart';
+
+import '../Helper/ImageLabeler.dart';
 
 String categorie = "";
 
@@ -25,7 +27,6 @@ class _MainViewState extends State<MainView> {
     super.initState();
 
     _imagePicker = ImagePicker();
-
   }
 
   @override
@@ -36,36 +37,45 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Accueil'),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(icon: Icon(Icons.home), onPressed: () { Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainView())); }),
-          SizedBox(width: 30),
-          IconButton(icon: Icon(Icons.collections), onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => CollectionView())); }),
-          SizedBox(width: 30),
-          Icon(Icons.account_box)
-        ],
-      ),
-      body: Center(
-        child: Column(
+        appBar: AppBar(
+          title: Text('Accueil'),
+          automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+                icon: Icon(Icons.home),
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => MainView()));
+                }),
+            SizedBox(width: 30),
+            IconButton(
+                icon: Icon(Icons.collections),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CollectionView()));
+                }),
+            SizedBox(width: 30),
+            Icon(Icons.account_box),
+            SizedBox(width: 30),
+          ],
+        ),
+        body: Center(
+            child: Column(
           children: [
             SizedBox(height: 80),
-            Text('SnappToo',
-            style: TextStyle(
-              fontSize: 48),),
+            Text(
+              'Snaptoo',
+              style: TextStyle(fontSize: 48),
+            ),
             SizedBox(height: 100),
             MyDropBoxWidget(),
             SizedBox(height: 100),
             _floatingActionButton(),
           ],
-        )
-      )
-      );
+        )));
   }
 
   Widget _floatingActionButton() {
-
     return Container(
         height: 70.0,
         width: 70.0,
@@ -78,26 +88,34 @@ class _MainViewState extends State<MainView> {
         ));
   }
 
-
-  void _getImage(ImageSource source) async{
+  void _getImage(ImageSource source) async {
     final pickedFile = await _imagePicker?.pickImage(source: source);
     //final pickedFile = await _controller?.takePicture();
     if (pickedFile != null) {
       final path = pickedFile.path;
       final bytes = await File(path).readAsBytes();
       _image = MemoryImage(bytes);
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => NoteView(categorie: categorie, imageProv: _image,imageBytes: File(pickedFile.path))));
+
+      List<Tuple3<String, int, double>> listLabel = await ImageLabeler.getImageLabels(File(pickedFile.path));
+      // JUSTE UN PETIT PRINT POUR TESTER
+      print('\n\nLES LABELS DETECTES POUR L\'IMAGE CHOISIE : $listLabel\n\n\n');
+
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => NoteView(
+                categorie: categorie,
+                imageProv: _image,
+                imageBytes: File(pickedFile.path),
+                listLabel: listLabel,
+              )));
     } else {
       print('No image selected.');
     }
     setState(() {});
   }
 
-  void _takePicture() async{
-
+  void _takePicture() async {
     _getImage(ImageSource.camera);
   }
-
 }
 
 class MyDropBoxWidget extends StatefulWidget {
@@ -137,4 +155,3 @@ class _MyDropBoxWidgetState extends State<MyDropBoxWidget> {
     );
   }
 }
-

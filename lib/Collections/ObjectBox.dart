@@ -1,5 +1,6 @@
 import '../objectbox.g.dart';
 import 'DataModels/FoodCollectionItem.dart';
+import 'DataModels/ObjectCollectionItem.dart';
 
 class ObjectBox {
   /// The Store of this app.
@@ -21,12 +22,12 @@ class ObjectBox {
     return store.box<FoodCollectionItem>();
   }
 
+  Box<ObjectCollectionItem> Object()
+  {
+    return store.box<ObjectCollectionItem>();
+  }
+
   // FOR FUTURE COLLECTIONS
-  // Box<ObjectCollectionItem> Object()
-  // {
-  //   return store.box<ObjectCollectionItem>();
-  // }
-  //
   // Box<FlowerCollectionItem> Flower()
   // {
   //   return store.box<FlowerCollectionItem>();

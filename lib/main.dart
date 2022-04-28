@@ -1,14 +1,9 @@
-import 'dart:io';
-import 'dart:developer';
-import 'dart:core';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:path_provider/path_provider.dart';
 
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:snaptoo/objectbox.g.dart';
+import 'app.dart';
 
 import 'package:tuple/tuple.dart';
 

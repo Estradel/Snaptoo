@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:test_projet/views/image_view.dart';
 
-
+import '../Collections/ObjectBox.dart';
 import 'main_view.dart';
 
+late List Objects;
 
 List Animaux = [
   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
@@ -22,7 +25,6 @@ List Fleur = [
   "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
   "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
   "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
-
 ];
 
 List Nourriture = [
@@ -36,9 +38,23 @@ class CollectionView extends StatefulWidget {
 }
 
 class _CollectionViewState extends State<CollectionView> {
-
   String dropdownValue = "Animaux";
   List litems = Animaux;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    initCollections();
+  }
+
+  void initCollections() async {
+    final objectBox = await ObjectBox.create();
+    final objectsDB = objectBox.Object();
+    Objects = objectsDB.getAll().map((e) => e.imagePath).toList();
+    print(Objects);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,45 +64,65 @@ class _CollectionViewState extends State<CollectionView> {
           title: Text('Collection'),
           automaticallyImplyLeading: false,
           actions: [
-            IconButton(icon: Icon(Icons.home), onPressed: () { Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainView())); }),
+            IconButton(
+                icon: Icon(Icons.home),
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => MainView()));
+                }),
             SizedBox(width: 30),
-            IconButton(icon: Icon(Icons.collections), onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => CollectionView())); }),
+            IconButton(
+                icon: Icon(Icons.collections),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CollectionView()));
+                }),
             SizedBox(width: 30),
             Icon(Icons.account_box)
           ],
         ),
         body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: 40),
-                  Text('Collection',
-                    style: TextStyle(
-                        fontSize: 48),),
-                  SizedBox(height: 20),
-                  MyDropBoxWidget(),
-                  SizedBox(height: 30),
-                  ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext ctx, int index) {
-                      return Padding(
-                          padding: EdgeInsets.all(10),
-                          child: InkWell(
-                          onTap: () { Navigator.of(context).push(MaterialPageRoute(builder: (context) => ImageView(imagePath: index.toString(),))); },
-                            child: ClipRRect(
-                                child: Image.network(litems[index],height: 150,width: 150,),
-                            ),
-                          )
-                      );
-                    },
-                    itemCount: litems.length,
-                    physics: ClampingScrollPhysics(),
-                  )
-                ],
+          child: Column(
+            children: [
+              SizedBox(height: 40),
+              Text(
+                'Collection',
+                style: TextStyle(fontSize: 48),
               ),
-          
-        )
-    );
+              SizedBox(height: 20),
+              MyDropBoxWidget(),
+              SizedBox(height: 30),
+              ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext ctx, int index) {
+                  return Padding(
+                    padding: EdgeInsets.all(10),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ImageView(
+                                  imagePath: index.toString(),
+                                )));
+                      },
+                      child: ClipRRect(
+                          child: // REPLACEMENT TO DISPLAY LOCAL FILES
+                          // Image.network(litems[index],height: 150,width: 150,)
+                              Image.file(
+                        File(litems[index]),
+                        height: 150,
+                        width: 150,
+                      ) // ,
+                          ),
+                    ),
+                  );
+                },
+                itemCount: litems.length,
+                physics: ClampingScrollPhysics(),
+              )
+            ],
+          ),
+        ));
   }
 
   @override
@@ -103,15 +139,17 @@ class _CollectionViewState extends State<CollectionView> {
       onChanged: (String? newValue) {
         setState(() {
           dropdownValue = newValue!;
-          if(dropdownValue == "Animaux")
+          if (dropdownValue == "Objects")
+            litems = Objects;
+          else if (dropdownValue == "Animaux")
             litems = Animaux;
-          else if(dropdownValue == "Fleurs")
+          else if (dropdownValue == "Fleurs")
             litems = Fleur;
           else
             litems = Nourriture;
         });
       },
-      items: <String>['Animaux', 'Fleurs', 'Nourriture']
+      items: <String>['Objects', 'Animaux', 'Fleurs', 'Nourriture']
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
@@ -121,5 +159,3 @@ class _CollectionViewState extends State<CollectionView> {
     );
   }
 }
-
-

@@ -33,10 +33,41 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "2:3806899465833318696",
+      "lastPropertyId": "4:5652466726390394345",
+      "name": "ObjectCollectionItem",
+      "properties": [
+        {
+          "id": "1:4279140238520702892",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5786888275400164650",
+          "name": "labelName",
+          "type": 9,
+          "flags": 2048,
+          "indexId": "2:517592347636989081"
+        },
+        {
+          "id": "3:3772690156558058165",
+          "name": "score",
+          "type": 8
+        },
+        {
+          "id": "4:5652466726390394345",
+          "name": "imagePath",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:3542980577963244658",
-  "lastIndexId": "1:6180763466594912312",
+  "lastEntityId": "2:3806899465833318696",
+  "lastIndexId": "2:517592347636989081",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

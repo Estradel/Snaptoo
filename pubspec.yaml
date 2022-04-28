@@ -1,5 +1,5 @@
-name: snaptoo
-description: A new Flutter project.
+name: test_projet
+description: Tests pour le projet flutter
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -29,6 +29,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  camera:
+  google_ml_kit:
+  image_picker:
+  image:
+  path:
+  path_provider:
 
 
   # The following adds the Cupertino Icons font to your application.

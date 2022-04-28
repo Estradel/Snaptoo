@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:snaptoo/objectbox.g.dart';
 import 'app.dart';
@@ -16,11 +20,9 @@ Future<File> getImageFileFromAssets(String path) async {
   final file = await File('${(await getTemporaryDirectory()).path}/$path')
       .create(recursive: true);
 
-  if (await Permission.storage
-      .request()
-      .isGranted) {
-    await file.writeAsBytes(byteData.buffer.asUint8List(
-        byteData.offsetInBytes, byteData.lengthInBytes));
+  if (await Permission.storage.request().isGranted) {
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
   }
 
   return file;
@@ -48,7 +50,6 @@ Future<List<Tuple3<String, int, double>>> getImageLabels(File file) async {
 }
 
 Future<void> main() async {
-
   runApp(const MyApp());
 
   // Create a File that will then be used to create an ML-Kit's InputImage.
@@ -61,12 +62,14 @@ Future<void> main() async {
   // JUSTE UN PETIT PRINT POUR TESTER
   print('\n\nLES LABELS DETECTES POUR L\'IMAGE CHOISIE : $listLabel\n\n\n');
 
-
   final objectBox = await ObjectBox.create();
   final foodBox = objectBox.Food();
 
   for (var element in listLabel) {
-    foodBox.put(FoodCollectionItem(labelName: element.item1, score: element.item2, imagePath: "default path"));
+    foodBox.put(FoodCollectionItem(
+        labelName: element.item1,
+        score: element.item2,
+        imagePath: "default path"));
   }
 
   List<FoodCollectionItem> foodItemList = foodBox.getAll();
@@ -89,8 +92,8 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text("Image from assets"),
         ),
-        body: Image.asset(
-            'assets/images/bus.jpg'), // FOR SOME TESTING, THERE 3 DIFFERENT IMAGES IN THE ASSETS
+        // body: Image.asset(
+        //     'assets/images/bus.jpg'), // FOR SOME TESTING, THERE 3 DIFFERENT IMAGES IN THE ASSETS
       ),
     );
   }

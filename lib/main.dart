@@ -1,7 +1,6 @@
-import 'dart:io';
-
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:test_projet/views/main_view.dart';
 
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:path_provider/path_provider.dart';
@@ -9,7 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:snaptoo/objectbox.g.dart';
 import 'app.dart';
 
-import 'package:tuple/tuple.dart';
+List<CameraDescription> cameras = [];
 
 import 'Collections/DataModels/FoodCollectionItem.dart';
 import 'Collections/ObjectBox.dart';
@@ -50,51 +49,26 @@ Future<List<Tuple3<String, int, double>>> getImageLabels(File file) async {
 }
 
 Future<void> main() async {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
 
-  // Create a File that will then be used to create an ML-Kit's InputImage.
-  File file = await getImageFileFromAssets(
-      'images/bus.jpg'); // FOR SOME TESTING, THERE 3 DIFFERENT IMAGES IN THE ASSETS
+  cameras = await availableCameras();
 
-  // Retrieve the labels ML-Kit detects for a given image file.
-  List<Tuple3<String, int, double>> listLabel = await getImageLabels(file);
-
-  // JUSTE UN PETIT PRINT POUR TESTER
-  print('\n\nLES LABELS DETECTES POUR L\'IMAGE CHOISIE : $listLabel\n\n\n');
-
-  final objectBox = await ObjectBox.create();
-  final foodBox = objectBox.Food();
-
-  for (var element in listLabel) {
-    foodBox.put(FoodCollectionItem(
-        labelName: element.item1,
-        score: element.item2,
-        imagePath: "default path"));
-  }
-
-  List<FoodCollectionItem> foodItemList = foodBox.getAll();
-  print('\n\nItems stockés dans la DB : \n\n');
-  for (var element in foodItemList) {
-    print('$element.toString() \n');
-  }
-
-  foodBox.removeAll();
-  objectBox.Close();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Image from assets"),
-        ),
-        // body: Image.asset(
-        //     'assets/images/bus.jpg'), // FOR SOME TESTING, THERE 3 DIFFERENT IMAGES IN THE ASSETS
-      ),
+      debugShowCheckedModeBanner: false,
+      home: Home(),
     );
+  }
+}
+
+class Home extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MainView();
   }
 }

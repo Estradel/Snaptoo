@@ -416,7 +416,7 @@ packages:
     source: hosted
     version: "2.0.2"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       url: "https://pub.dartlang.org"
@@ -471,17 +471,10 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
-  permission_handler:
-    dependency: "direct main"
-    description:
-      name: permission_handler
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "9.2.0"
-  permission_handler_android:
+  petitparser:
     dependency: transitive
     description:
-      name: permission_handler_android
+      name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
     version: "9.0.2+1"

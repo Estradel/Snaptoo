@@ -1,5 +1,5 @@
-name: snaptoo
-description: A new Flutter project.
+name: test_projet
+description: Tests pour le projet flutter
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -29,16 +29,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  camera:
+  google_ml_kit:
+  image_picker:
+  image:
+  path:
+  path_provider:
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  google_ml_kit: ^0.7.3
-  camera: ^0.9.4+16
-  path_provider: ^2.0.9
-  permission_handler: ^9.2.0
-  tuple: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -66,9 +67,6 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
-
-  assets :
-    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

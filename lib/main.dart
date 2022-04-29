@@ -2,12 +2,16 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:snaptoo/home/view/home_view.dart';
 
-List<CameraDescription> cameras = [];
+import 'collections/ObjectBox.dart';
+
+late ObjectBox objectBox;
+late List<CameraDescription> cameras;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   cameras = await availableCameras();
+  objectBox = await ObjectBox.create();
 
   runApp(const MyApp());
 }

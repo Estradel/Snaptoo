@@ -13,8 +13,8 @@ import 'package:objectbox/internal.dart'; // generated code can access "internal
 import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
-import 'Collections/DataModels/FoodCollectionItem.dart';
-import 'Collections/DataModels/ObjectCollectionItem.dart';
+import 'collections/data_models/FoodCollectionItem.dart';
+import 'collections/data_models/ObjectCollectionItem.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 

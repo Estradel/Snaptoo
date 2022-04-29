@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:test_projet/home/view/home_view.dart';
-import 'package:test_projet/views/main_view.dart';
+import 'package:snaptoo/home/view/home_view.dart';
 
 List<CameraDescription> cameras = [];
 

@@ -1,10 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:test_projet/home/cubit/home_cubit.dart';
-import 'package:test_projet/views/collection_view.dart';
-import 'package:test_projet/views/main_view.dart';
+import 'package:snaptoo/home/cubit/home_cubit.dart';
+import 'package:snaptoo/views/collection_view.dart';
+import 'package:snaptoo/views/main_view.dart';
 
 import '../../helper/Utilities.dart';
 import '../../views/profile_view.dart';

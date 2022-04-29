@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:test_projet/collections/data_models/ObjectCollectionItem.dart';
+import 'package:snaptoo/collections/data_models/ObjectCollectionItem.dart';
 import 'package:tuple/tuple.dart';
 import '../collections/ObjectBox.dart';
 import 'collection_view.dart';

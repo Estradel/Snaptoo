@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ch.test.test_projet">
+    package="ch.hesso.advmobapp.snaptoo">
    <application
-        android:label="test_projet"
+        android:label="Snaptoo"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

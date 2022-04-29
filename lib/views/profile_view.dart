@@ -10,6 +10,19 @@ class ProfileView extends StatefulWidget {
 class _CollectionViewState extends State<ProfileView> {
   @override
   Widget build(BuildContext context) {
-    return const Text("This is profile");
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              "This is a profile ! :)",
+              style: TextStyle(fontSize: 32),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

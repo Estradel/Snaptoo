@@ -1,4 +1,4 @@
-# test_projet
+# Snaptoo
 
 Tests pour le projet flutter
 

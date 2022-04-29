@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:test_projet/views/collection_view.dart';
-import 'package:test_projet/views/validation_view.dart';
+import 'package:snaptoo/views/validation_view.dart';
 import 'package:tuple/tuple.dart';
 
 import '../Helper/ImageLabeler.dart';

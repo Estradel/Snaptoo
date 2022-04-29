@@ -1,11 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:test_projet/views/image_view.dart';
+import 'package:snaptoo/views/image_view.dart';
 
 import '../Collections/ObjectBox.dart';
-import 'main_view.dart';
 
 late List Objects;
 

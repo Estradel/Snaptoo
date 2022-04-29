@@ -38,38 +38,37 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Accueil'),
+          title: const Text('Accueil'),
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
-                icon: Icon(Icons.home),
+                icon: const Icon(Icons.home),
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => MainView()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainView()));
                 }),
-            SizedBox(width: 30),
+            const SizedBox(width: 30),
             IconButton(
-                icon: Icon(Icons.collections),
+                icon: const Icon(Icons.collections),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CollectionView()));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => CollectionView()));
                 }),
-            SizedBox(width: 30),
-            Icon(Icons.account_box),
-            SizedBox(width: 30),
+            const SizedBox(width: 30),
+            const Icon(Icons.account_box),
+            const SizedBox(width: 30),
           ],
         ),
         body: Center(
             child: Column(
           children: [
-            SizedBox(height: 80),
-            Text(
+            const SizedBox(height: 80),
+            const Text(
               'Snaptoo',
               style: TextStyle(fontSize: 48),
             ),
-            SizedBox(height: 100),
-            MyDropBoxWidget(),
-            SizedBox(height: 100),
+            const SizedBox(height: 100),
+            const MyDropBoxWidget(),
+            const SizedBox(height: 100),
             _floatingActionButton(),
           ],
         )));
@@ -80,12 +79,16 @@ class _MainViewState extends State<MainView> {
         height: 70.0,
         width: 70.0,
         child: FloatingActionButton(
-          child: Icon(
+          child: const Icon(
             Icons.photo_camera_rounded,
             size: 40,
           ),
           onPressed: _takePicture,
         ));
+  }
+
+  void _takePicture() async {
+    _getImage(ImageSource.camera);
   }
 
   void _getImage(ImageSource source) async {
@@ -96,7 +99,9 @@ class _MainViewState extends State<MainView> {
       final bytes = await File(path).readAsBytes();
       _image = MemoryImage(bytes);
 
-      List<Tuple3<String, int, double>> listLabel = await ImageLabeler.getImageLabels(File(pickedFile.path));
+      List<Tuple3<String, int, double>> listLabel =
+          await ImageLabeler.getImageLabels(File(pickedFile.path));
+
       // JUSTE UN PETIT PRINT POUR TESTER
       print('\n\nLES LABELS DETECTES POUR L\'IMAGE CHOISIE : $listLabel\n\n\n');
 
@@ -111,10 +116,6 @@ class _MainViewState extends State<MainView> {
       print('No image selected.');
     }
     setState(() {});
-  }
-
-  void _takePicture() async {
-    _getImage(ImageSource.camera);
   }
 }
 
@@ -145,8 +146,8 @@ class _MyDropBoxWidgetState extends State<MyDropBoxWidget> {
           categorie = dropdownValue;
         });
       },
-      items: <String>['Animaux', 'Fleurs', 'Nourriture']
-          .map<DropdownMenuItem<String>>((String value) {
+      items:
+          <String>['Animaux', 'Fleurs', 'Nourriture'].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),

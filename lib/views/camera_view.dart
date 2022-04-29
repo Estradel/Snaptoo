@@ -88,7 +88,7 @@ class _CameraViewState extends State<CameraView> {
         height: 70.0,
         width: 70.0,
         child: FloatingActionButton(
-          child: Icon(
+          child: const Icon(
             Icons.photo_camera_rounded,
             size: 40,
           ),

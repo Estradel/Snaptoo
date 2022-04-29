@@ -34,12 +34,12 @@ List Nourriture = [
 
 class CollectionView extends StatefulWidget {
   @override
-  State createState() => new _CollectionViewState();
+  State createState() => _CollectionViewState();
 }
 
 class _CollectionViewState extends State<CollectionView> {
   String dropdownValue = "Animaux";
-  List litems = Animaux;
+  List lItems = Animaux;
 
   @override
   void initState() {
@@ -61,43 +61,43 @@ class _CollectionViewState extends State<CollectionView> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('Collection'),
+          title: const Text('Collection'),
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
-                icon: Icon(Icons.home),
+                icon: const Icon(Icons.home),
                 onPressed: () {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => MainView()));
                 }),
-            SizedBox(width: 30),
+            const SizedBox(width: 30),
             IconButton(
-                icon: Icon(Icons.collections),
+                icon: const Icon(Icons.collections),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CollectionView()));
                 }),
-            SizedBox(width: 30),
-            Icon(Icons.account_box)
+            const SizedBox(width: 30),
+            const Icon(Icons.account_box)
           ],
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 40),
-              Text(
+              const SizedBox(height: 40),
+              const Text(
                 'Collection',
                 style: TextStyle(fontSize: 48),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               MyDropBoxWidget(),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext ctx, int index) {
                   return Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: InkWell(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
@@ -107,9 +107,9 @@ class _CollectionViewState extends State<CollectionView> {
                       },
                       child: ClipRRect(
                           child: // REPLACEMENT TO DISPLAY LOCAL FILES
-                          // Image.network(litems[index],height: 150,width: 150,)
+                          // Image.network(lItems[index],height: 150,width: 150,)
                               Image.file(
-                        File(litems[index]),
+                        File(lItems[index]),
                         height: 150,
                         width: 150,
                       ) // ,
@@ -117,8 +117,8 @@ class _CollectionViewState extends State<CollectionView> {
                     ),
                   );
                 },
-                itemCount: litems.length,
-                physics: ClampingScrollPhysics(),
+                itemCount: lItems.length,
+                physics: const ClampingScrollPhysics(),
               )
             ],
           ),
@@ -140,13 +140,13 @@ class _CollectionViewState extends State<CollectionView> {
         setState(() {
           dropdownValue = newValue!;
           if (dropdownValue == "Objects")
-            litems = Objects;
+            lItems = Objects;
           else if (dropdownValue == "Animaux")
-            litems = Animaux;
+            lItems = Animaux;
           else if (dropdownValue == "Fleurs")
-            litems = Fleur;
+            lItems = Fleur;
           else
-            litems = Nourriture;
+            lItems = Nourriture;
         });
       },
       items: <String>['Objects', 'Animaux', 'Fleurs', 'Nourriture']

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:test_projet/views/collection_view.dart';
-import 'package:test_projet/views/note_view.dart';
+import 'package:test_projet/views/validation_view.dart';
 import 'package:tuple/tuple.dart';
 
 import '../Helper/ImageLabeler.dart';
@@ -12,6 +12,8 @@ import '../Helper/ImageLabeler.dart';
 String categorie = "";
 
 class MainView extends StatefulWidget {
+  const MainView({Key? key}) : super(key: key);
+
   @override
   _MainViewState createState() => _MainViewState();
 }
@@ -37,41 +39,20 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Accueil'),
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-                icon: const Icon(Icons.home),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainView()));
-                }),
-            const SizedBox(width: 30),
-            IconButton(
-                icon: const Icon(Icons.collections),
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => CollectionView()));
-                }),
-            const SizedBox(width: 30),
-            const Icon(Icons.account_box),
-            const SizedBox(width: 30),
-          ],
-        ),
         body: Center(
             child: Column(
-          children: [
-            const SizedBox(height: 80),
-            const Text(
-              'Snaptoo',
-              style: TextStyle(fontSize: 48),
-            ),
-            const SizedBox(height: 100),
-            const MyDropBoxWidget(),
-            const SizedBox(height: 100),
-            _floatingActionButton(),
-          ],
-        )));
+      children: [
+        const SizedBox(height: 80),
+        const Text(
+          'Snaptoo',
+          style: TextStyle(fontSize: 48),
+        ),
+        const SizedBox(height: 100),
+        const MyDropBoxWidget(),
+        const SizedBox(height: 100),
+        _floatingActionButton(),
+      ],
+    )));
   }
 
   Widget _floatingActionButton() {
@@ -102,11 +83,8 @@ class _MainViewState extends State<MainView> {
       List<Tuple3<String, int, double>> listLabel =
           await ImageLabeler.getImageLabels(File(pickedFile.path));
 
-      // JUSTE UN PETIT PRINT POUR TESTER
-      print('\n\nLES LABELS DETECTES POUR L\'IMAGE CHOISIE : $listLabel\n\n\n');
-
       Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => NoteView(
+          builder: (context) => ValidationView(
                 categorie: categorie,
                 imageProv: _image,
                 imageBytes: File(pickedFile.path),

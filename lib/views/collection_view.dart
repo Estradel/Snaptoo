@@ -33,6 +33,8 @@ List Nourriture = [
 ];
 
 class CollectionView extends StatefulWidget {
+  const CollectionView({Key? key}) : super(key: key);
+
   @override
   State createState() => _CollectionViewState();
 }
@@ -60,27 +62,6 @@ class _CollectionViewState extends State<CollectionView> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          title: const Text('Collection'),
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-                icon: const Icon(Icons.home),
-                onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => MainView()));
-                }),
-            const SizedBox(width: 30),
-            IconButton(
-                icon: const Icon(Icons.collections),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => CollectionView()));
-                }),
-            const SizedBox(width: 30),
-            const Icon(Icons.account_box)
-          ],
-        ),
         body: SingleChildScrollView(
           child: Column(
             children: [

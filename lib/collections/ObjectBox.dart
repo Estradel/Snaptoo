@@ -1,6 +1,6 @@
 import '../objectbox.g.dart';
-import 'DataModels/FoodCollectionItem.dart';
-import 'DataModels/ObjectCollectionItem.dart';
+import 'data_models/FoodCollectionItem.dart';
+import 'data_models/ObjectCollectionItem.dart';
 
 class ObjectBox {
   /// The Store of this app.

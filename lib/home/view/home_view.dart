@@ -10,6 +10,7 @@ import '../../views/profile_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
+  static const String route = "/homeScreen";
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +24,12 @@ class HomeView extends StatelessWidget {
 class _HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final selectedTab = context.select((HomeCubit cubit) => cubit.state.tab);
+    // if currentTab changes this whole widget will be rebuilt !
+    final selectedTab = context.select((HomeCubit cubit) => cubit.state.currentTab);
     return Scaffold(
       body: Utilities.customCase(selectedTab, {
-        HomeTab.main: const MainView(),
         HomeTab.collection: const CollectionView(),
+        HomeTab.main: const MainView(),
         HomeTab.profile: const ProfileView(),
       }),
       bottomNavigationBar: BottomNavigationBar(

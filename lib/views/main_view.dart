@@ -37,20 +37,22 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-            child: Column(
-      children: [
-        const SizedBox(height: 80),
-        const Text(
-          'Snaptoo',
-          style: TextStyle(fontSize: 48),
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 80),
+            const Text(
+              'Snaptoo',
+              style: TextStyle(fontSize: 48),
+            ),
+            const SizedBox(height: 100),
+            const MyDropBoxWidget(),
+            const SizedBox(height: 100),
+            _floatingActionButton(),
+          ],
         ),
-        const SizedBox(height: 100),
-        const MyDropBoxWidget(),
-        const SizedBox(height: 100),
-        _floatingActionButton(),
-      ],
-    )));
+      ),
+    );
   }
 
   Widget _floatingActionButton() {
@@ -81,13 +83,16 @@ class _MainViewState extends State<MainView> {
       List<Tuple3<String, int, double>> listLabel =
           await ImageLabeler.getImageLabels(File(pickedFile.path));
 
-      Navigator.of(context).push(MaterialPageRoute(
+      Navigator.of(context).push(
+        MaterialPageRoute(
           builder: (context) => ValidationView(
-                categorie: categorie,
-                imageProv: _image,
-                imageBytes: File(pickedFile.path),
-                listLabel: listLabel,
-              )));
+            categorie: categorie,
+            imageProv: _image,
+            imageBytes: File(pickedFile.path),
+            listLabel: listLabel,
+          ),
+        ),
+      );
     } else {
       print('No image selected.');
     }

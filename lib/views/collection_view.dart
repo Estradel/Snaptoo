@@ -80,13 +80,14 @@ class _CollectionViewState extends State<CollectionView> {
                     child: InkWell(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ImageView(
-                                  imagePath: index.toString(),
-                                )));
+                          builder: (context) => ImageView(
+                            imagePath: index.toString(),
+                          ),
+                        ));
                       },
                       child: ClipRRect(
                           child: // REPLACEMENT TO DISPLAY LOCAL FILES
-                          // Image.network(lItems[index],height: 150,width: 150,)
+                              // Image.network(lItems[index],height: 150,width: 150,)
                               Image.file(
                         File(lItems[index]),
                         height: 150,

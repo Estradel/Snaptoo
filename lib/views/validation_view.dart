@@ -28,28 +28,8 @@ class ValidationView extends StatelessWidget {
     bestMatch = findBestMatch(listLabel);
 
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Accueil'),
-          automaticallyImplyLeading: false,
-          actions: [
-            IconButton(
-                icon: const Icon(Icons.home),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainView()));
-                }),
-            const SizedBox(width: 30),
-            IconButton(
-                icon: const Icon(Icons.collections),
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => CollectionView()));
-                }),
-            const SizedBox(width: 30),
-            const Icon(Icons.account_box)
-          ],
-        ),
-        body: Center(
-            child: Column(
+      body: Center(
+        child: Column(
           children: [
             const SizedBox(height: 50),
             Image(image: imageProv, height: 300, width: 300),
@@ -68,7 +48,9 @@ class ValidationView extends StatelessWidget {
               ],
             )
           ],
-        )));
+        ),
+      ),
+    );
   }
 
   Widget _floatingActionButtonDelete(BuildContext context) {
@@ -82,7 +64,7 @@ class ValidationView extends StatelessWidget {
               size: 30,
             ),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainView()));
+              Navigator.pop(context);
             }));
   }
 
@@ -115,7 +97,7 @@ class ValidationView extends StatelessWidget {
                 labelName: itemName, score: itemScore, imagePath: '$appDocPath/$itemName.png'));
             objectBox.Close();
 
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainView()));
+            Navigator.pop(context);
           },
         ));
   }

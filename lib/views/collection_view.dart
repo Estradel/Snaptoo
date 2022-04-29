@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:snaptoo/main.dart';
 import 'package:snaptoo/views/image_view.dart';
 
 import '../Collections/ObjectBox.dart';
@@ -50,7 +51,6 @@ class _CollectionViewState extends State<CollectionView> {
   }
 
   void initCollections() async {
-    final objectBox = await ObjectBox.create();
     final objectsDB = objectBox.Object();
     Objects = objectsDB.getAll().map((e) => e.imagePath).toList();
     print(Objects);

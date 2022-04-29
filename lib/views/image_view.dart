@@ -8,20 +8,28 @@ class ImageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 40),
-              Text(imagePath),
-              const SizedBox(height: 40),
-              const Text("Catégorie : ...."),
-              const SizedBox(height: 20),
-              const Text("Objet : ...."),
-              const SizedBox(height: 20),
-              const Text("Note : ....")
-            ],
-          ),
-        ));
+      resizeToAvoidBottomInset: false,
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 40),
+            Text(imagePath),
+            const SizedBox(height: 40),
+            const Text("Catégorie : ...."),
+            const SizedBox(height: 20),
+            const Text("Objet : ...."),
+            const SizedBox(height: 20),
+            const Text("Note : ....")
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.arrow_back_rounded),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+    );
   }
 }

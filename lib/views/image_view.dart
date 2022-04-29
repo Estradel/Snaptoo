@@ -18,27 +18,27 @@ class ImageView extends StatelessWidget {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('Image'),
+          title: const Text('Image'),
           automaticallyImplyLeading: false,
           actions: [
-            IconButton(icon: Icon(Icons.home), onPressed: () { Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainView())); }),
-            SizedBox(width: 30),
-            IconButton(icon: Icon(Icons.collections), onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => CollectionView())); }),
-            SizedBox(width: 30),
-            Icon(Icons.account_box)
+            IconButton(icon: const Icon(Icons.home), onPressed: () { Navigator.of(context).push(MaterialPageRoute(builder: (context) => MainView())); }),
+            const SizedBox(width: 30),
+            IconButton(icon: const Icon(Icons.collections), onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => CollectionView())); }),
+            const SizedBox(width: 30),
+            const Icon(Icons.account_box)
           ],
         ),
         body: Center(
           child: Column(
             children: [
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
              Text(imagePath),
-              SizedBox(height: 40),
-              Text("Catégorie : ...."),
-              SizedBox(height: 20),
-              Text("Objet : ...."),
-              SizedBox(height: 20),
-              Text("Note : ....")
+              const SizedBox(height: 40),
+              const Text("Catégorie : ...."),
+              const SizedBox(height: 20),
+              const Text("Objet : ...."),
+              const SizedBox(height: 20),
+              const Text("Note : ....")
             ],
           ),
 

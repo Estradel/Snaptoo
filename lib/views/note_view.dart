@@ -21,46 +21,46 @@ class NoteView extends StatelessWidget {
   final File imageBytes;
   final List<Tuple3<String, int, double>> listLabel;
 
-  late final Tuple3<String, int, double> bestmatch;
+  late final Tuple3<String, int, double> bestMatch;
 
   @override
   Widget build(BuildContext context) {
-    bestmatch = BestMatch(listLabel);
+    bestMatch = findBestMatch(listLabel);
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Accueil'),
+          title: const Text('Accueil'),
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
-                icon: Icon(Icons.home),
+                icon: const Icon(Icons.home),
                 onPressed: () {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => MainView()));
                 }),
-            SizedBox(width: 30),
+            const SizedBox(width: 30),
             IconButton(
-                icon: Icon(Icons.collections),
+                icon: const Icon(Icons.collections),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => CollectionView()));
                 }),
-            SizedBox(width: 30),
-            Icon(Icons.account_box)
+            const SizedBox(width: 30),
+            const Icon(Icons.account_box)
           ],
         ),
         body: Center(
             child: Column(
           children: [
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             Image(image: imageProv, height: 300, width: 300),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             Text('Catégorie : ' + categorie),
-            SizedBox(height: 10),
-            Text('Objet : ' + bestmatch.item1),
-            SizedBox(height: 10),
-            Text('Note : ' + (bestmatch.item3 * 100).toStringAsFixed(2) + "%"),
-            SizedBox(height: 50),
+            const SizedBox(height: 10),
+            Text('Objet : ' + bestMatch.item1),
+            const SizedBox(height: 10),
+            Text('Note : ' + (bestMatch.item3 * 100).toStringAsFixed(2) + "%"),
+            const SizedBox(height: 50),
             Wrap(
               spacing: 50,
               children: [
@@ -78,7 +78,7 @@ class NoteView extends StatelessWidget {
         width: 50.0,
         child: FloatingActionButton(
             heroTag: "btn_delete",
-            child: Icon(
+            child: const Icon(
               Icons.delete,
               size: 30,
             ),
@@ -94,14 +94,14 @@ class NoteView extends StatelessWidget {
         width: 50.0,
         child: FloatingActionButton(
           heroTag: "btn_add",
-          child: Icon(
+          child: const Icon(
             Icons.done,
             size: 30,
           ),
           onPressed: () async {
             //SavePicture();
-            String itemName = bestmatch.item1;
-            double itemScore = bestmatch.item3;
+            String itemName = bestMatch.item1;
+            double itemScore = bestMatch.item3;
 
             Directory appDocDir = await getApplicationDocumentsDirectory();
             String appDocPath = appDocDir.path;
@@ -123,7 +123,7 @@ class NoteView extends StatelessWidget {
         ));
   }
 
-  Tuple3<String, int, double> BestMatch(List<Tuple3<String, int, double>> labels) {
+  Tuple3<String, int, double> findBestMatch(List<Tuple3<String, int, double>> labels) {
     final best = labels.reduce((a, b) => a.item3 > b.item3 ? a : b);
     print('\n\nBEST MATCH : $best\n\n\n');
     return best;

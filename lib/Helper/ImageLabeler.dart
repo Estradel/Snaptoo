@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:tuple/tuple.dart';
 
-class ImageLabeler{
-
+class ImageLabeler {
   // Returns all the labels along with the index and confidence for given image.
   static Future<List<Tuple3<String, int, double>>> getImageLabels(File file) async {
     List<Tuple3<String, int, double>> listLabel = [];
@@ -25,5 +24,4 @@ class ImageLabeler{
 
     return listLabel;
   }
-
 }

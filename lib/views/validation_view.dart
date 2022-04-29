@@ -89,7 +89,6 @@ class ValidationView extends StatelessWidget {
             print(newImage.path);
 
             final objectsDB = objectBox.Object();
-
             objectsDB.put(
               ObjectCollectionItem(
                 labelName: itemName,
@@ -97,6 +96,8 @@ class ValidationView extends StatelessWidget {
                 imagePath: '$appDocPath/$itemName.png',
               ),
             );
+
+            objectsDB.getAll().forEach((element) {print(element); print("\n");});
 
             Navigator.pop(context);
           },

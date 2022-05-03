@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
-class ImageView extends StatelessWidget {
-  const ImageView({Key? key, required this.imagePath}) : super(key: key);
+import '../collections/data_models/CollectionItem.dart';
 
-  final String imagePath;
+class ImageView extends StatelessWidget {
+  const ImageView({Key? key, required this.collectionItem}) : super(key: key);
+
+  final CollectionItem collectionItem;
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +17,17 @@ class ImageView extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 40),
-            Text(imagePath),
+            Image.file(
+              File(collectionItem.imagePath!),
+              height: 150,
+              width: 150,
+            ),
             const SizedBox(height: 40),
-            const Text("Catégorie : ...."),
+            Text('Catégorie : ' + collectionItem.category),
             const SizedBox(height: 20),
-            const Text("Objet : ...."),
+            Text('Objet : ' + collectionItem.labelName),
             const SizedBox(height: 20),
-            const Text("Note : ....")
+            Text('Note : ' + (collectionItem.score * 100).toStringAsFixed(2) + "%")
           ],
         ),
       ),

@@ -1,14 +1,16 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:snaptoo/main.dart';
 import 'package:snaptoo/views/image_view.dart';
 
 import '../../../../collections/ObjectBox.dart';
+import '../../../../collections/data_models/CollectionItem.dart';
 import '../../../../collections/data_models/ObjectCollectionItem.dart';
-
-late List Objects;
+import '../../../../helper/Utilities.dart';
+import '../../../../objectbox.g.dart';
+import '../bloc/collection_bloc.dart';
 
 // List Animaux = [
 //   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
@@ -33,83 +35,98 @@ late List Objects;
 //   "https://cdn.pixabay.com/photo/2017/12/17/19/08/away-3024773_960_720.jpg",
 // ];
 
-class CollectionView extends StatefulWidget {
+class CollectionView extends StatelessWidget {
   const CollectionView({Key? key}) : super(key: key);
 
   @override
-  State createState() => _CollectionViewState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => CollectionBloc(objectBox: context.read<ObjectBox>()), // loading
+      child: _CollectionView(),
+    );
+  }
 }
 
-class _CollectionViewState extends State<CollectionView> {
-  String dropdownValue = "Objects";
-  late List lItems = Objects;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    initCollections();
-  }
-
-  void initCollections() async {
-    final objectsDB = context.read<ObjectBox>().GetBox<ObjectCollectionItem>();
-    Objects = objectsDB.getAll().map((e) => e.imagePath).toList();
-    print(Objects);
-  }
-
+class _CollectionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 40),
-              const Text(
-                'Collection',
-                style: TextStyle(fontSize: 48),
-              ),
-              const SizedBox(height: 20),
-              MyDropBoxWidget(),
-              const SizedBox(height: 30),
-              ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext ctx, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ImageView(
-                            imagePath: index.toString(),
-                          ),
-                        ));
-                      },
-                      child: ClipRRect(
-                          child: // REPLACEMENT TO DISPLAY LOCAL FILES
-                              // Image.network(lItems[index],height: 150,width: 150,)
-                              Image.file(
-                        File(lItems[index]),
-                        height: 150,
-                        width: 150,
-                      ) // ,
-                          ),
-                    ),
-                  );
-                },
-                itemCount: lItems.length,
-                physics: const ClampingScrollPhysics(),
-              )
-            ],
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 40),
+                const Text(
+                  'Collection',
+                  style: TextStyle(fontSize: 48),
+                ),
+                const SizedBox(height: 20),
+                MyDropBoxWidget(context),
+                const SizedBox(height: 30),
+                BlocBuilder<CollectionBloc, CollectionState>(
+                  // all is re-built whenever the state changes
+                  builder: (context, state) {
+                    if (state is CollectionLoading) {
+                      return const CircularProgressIndicator(color: Colors.lightBlueAccent);
+                    } else if (state is CollectionLoaded) {
+                      return ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: state.collectionItems.length,
+                        itemBuilder: (BuildContext ctx, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      ImageView(collectionItem: state.collectionItems[index]),
+                                ));
+                              },
+                              child: ClipRRect(
+                                child: Image.file(
+                                  File(state.collectionItems[index].imagePath!),
+                                  height: 150,
+                                  width: 150,
+                                ), // ,
+                              ),
+                            ),
+                          );
+                        },
+                        physics: const ClampingScrollPhysics(),
+                      );
+                    } else if (state is CollectionChoosing) {
+                      return const Text("Pick a category !");
+                    } else {
+                      return const Text("Something went wrong!");
+                    }
+                  },
+                )
+              ],
+            ),
           ),
         ));
   }
 
-  Widget MyDropBoxWidget() {
+  Widget MyDropBoxWidget(BuildContext context) {
+    late String? dropDownValue;
+
+    var state = context.watch<CollectionBloc>().state;
+
+    if (state is CollectionLoading) {
+      dropDownValue = "Objects";
+    } else if (state is CollectionLoaded) {
+      dropDownValue = state.category;
+    } else {
+      dropDownValue = null;
+    }
+
     return DropdownButton<String>(
-      value: dropdownValue,
+      hint: const Text("Categories"),
+      value: dropDownValue,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
       style: const TextStyle(color: Colors.deepPurple),
@@ -117,21 +134,10 @@ class _CollectionViewState extends State<CollectionView> {
         height: 2,
         color: Colors.deepPurpleAccent,
       ),
-      onChanged: (String? newValue) {
-        setState(() {
-          dropdownValue = newValue!;
-          if (dropdownValue == "Objects") {
-            lItems = Objects;
-          }
-        });
+      onChanged: (String? category) {
+        context.read<CollectionBloc>().add(LoadCollection(category!));
       },
-      items: <String>['Objects', 'Animaux', 'Fleurs', 'Nourriture']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+      items: Utilities.getMenuItems(),
     );
   }
 }

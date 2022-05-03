@@ -10,7 +10,7 @@ class MyApp extends StatefulWidget {
   final ObjectBox objectBox;
 
   @override
-  State<StatefulWidget> createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {

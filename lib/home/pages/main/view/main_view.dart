@@ -7,7 +7,7 @@ import 'package:tuple/tuple.dart';
 
 import '../../../../helper/ImageLabeler.dart';
 
-String categorie = "";
+String category = "Objects";
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -86,7 +86,7 @@ class _MainViewState extends State<MainView> {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => ValidationView(
-            category: categorie,
+            category: category,
             imageProv: _image,
             imageBytes: File(pickedFile.path),
             listLabel: listLabel,
@@ -124,7 +124,7 @@ class _MyDropBoxWidgetState extends State<MyDropBoxWidget> {
       onChanged: (String? newValue) {
         setState(() {
           dropdownValue = newValue!;
-          categorie = dropdownValue;
+          category = dropdownValue;
         });
       },
       items:

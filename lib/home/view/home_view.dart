@@ -23,7 +23,7 @@ class HomeView extends StatelessWidget {
 class _HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // if currentTab changes this whole widget will be rebuilt !
+    // if selectedTab changes this whole widget will be rebuilt !
     final selectedTab = context.select((HomeCubit cubit) => cubit.state.currentTab);
     return Scaffold(
       body: Utilities.customCase(selectedTab, {

@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:snaptoo/collections/data_models/ObjectCollectionItem.dart';
 import 'package:tuple/tuple.dart';
 import '../collections/ObjectBox.dart';
+import '../collections/data_models/CollectionItem.dart';
 import '../main.dart';
 
 class ValidationView extends StatelessWidget {
@@ -115,19 +116,24 @@ class _ValidationView extends StatelessWidget {
             print(imageBytes.path);
             print(newImage.path);
 
-            final objectsDB = context.read<ObjectBox>().GetBox<ObjectCollectionItem>();
-            objectsDB.put(
-              ObjectCollectionItem(
+            // À changer à un moment donné
+            //--------------------------------------------------------------
+            final objectBox = context.read<ObjectBox>();
+
+            objectBox.addCollectionItem(
+              CollectionItem(
                 labelName: itemName,
+                category: category,
                 score: itemScore,
                 imagePath: '$appDocPath/$itemName.png',
               ),
             );
 
-            objectsDB.getAll().forEach((element) {
+            objectBox.getCollectionItems().forEach((element) {
               print(element);
               print("\n");
             });
+            //--------------------------------------------------------------
 
             Navigator.pop(context);
           },

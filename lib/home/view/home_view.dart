@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:snaptoo/home/cubit/home_cubit.dart';
-import 'package:snaptoo/views/collection_view.dart';
-import 'package:snaptoo/views/main_view.dart';
-
 import '../../helper/Utilities.dart';
-import '../../views/profile_view.dart';
+import '../cubit/home_cubit.dart';
+import '../pages/collection/view/collection_view.dart';
+import '../pages/main/view/main_view.dart';
+import '../pages/profile/view/profile_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);

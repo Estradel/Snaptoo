@@ -1,20 +1,47 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:snaptoo/collections/data_models/ObjectCollectionItem.dart';
 import 'package:tuple/tuple.dart';
+import '../collections/ObjectBox.dart';
 import '../main.dart';
 
 class ValidationView extends StatelessWidget {
   ValidationView(
       {Key? key,
-      required this.categorie,
+      required this.category,
       required this.imageProv,
       required this.imageBytes,
       required this.listLabel})
       : super(key: key);
 
-  final String categorie;
+  final String category;
+  final ImageProvider imageProv;
+  final File imageBytes;
+  final List<Tuple3<String, int, double>> listLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    return _ValidationView(
+      category: category,
+      imageProv: imageProv,
+      imageBytes: imageBytes,
+      listLabel: listLabel,
+    );
+  }
+}
+
+class _ValidationView extends StatelessWidget {
+  _ValidationView(
+      {Key? key,
+      required this.category,
+      required this.imageProv,
+      required this.imageBytes,
+      required this.listLabel})
+      : super(key: key);
+
+  final String category;
   final ImageProvider imageProv;
   final File imageBytes;
   final List<Tuple3<String, int, double>> listLabel;
@@ -32,7 +59,7 @@ class ValidationView extends StatelessWidget {
             const SizedBox(height: 50),
             Image(image: imageProv, height: 300, width: 300),
             const SizedBox(height: 50),
-            Text('Catégorie : ' + categorie),
+            Text('Catégorie : ' + category),
             const SizedBox(height: 10),
             Text('Objet : ' + bestMatch.item1),
             const SizedBox(height: 10),
@@ -88,7 +115,7 @@ class ValidationView extends StatelessWidget {
             print(imageBytes.path);
             print(newImage.path);
 
-            final objectsDB = objectBox.Object();
+            final objectsDB = context.read<ObjectBox>().GetBox<ObjectCollectionItem>();
             objectsDB.put(
               ObjectCollectionItem(
                 labelName: itemName,
@@ -97,7 +124,10 @@ class ValidationView extends StatelessWidget {
               ),
             );
 
-            objectsDB.getAll().forEach((element) {print(element); print("\n");});
+            objectsDB.getAll().forEach((element) {
+              print(element);
+              print("\n");
+            });
 
             Navigator.pop(context);
           },

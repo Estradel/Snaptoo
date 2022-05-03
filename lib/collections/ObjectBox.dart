@@ -10,6 +10,27 @@ class ObjectBox {
     // Add any additional setup code, e.g. build queries.
   }
 
+  Box<FoodCollectionItem> Food() {
+    return store.box<FoodCollectionItem>();
+  }
+
+  Box<ObjectCollectionItem> Object() {
+    return store.box<ObjectCollectionItem>();
+  }
+
+  Box<T> GetBox<T>() => store.box<T>();
+
+// FOR FUTURE COLLECTIONS
+// Box<FlowerCollectionItem> Flower()
+// {
+//   return store.box<FlowerCollectionItem>();
+// }
+//
+// Box<InsectCollectionItem> Insect()
+// {
+//   return store.box<InsectCollectionItem>();
+// }
+
   /// Create an instance of ObjectBox to use throughout the app.
   static Future<ObjectBox> create() async {
     // Future<Store> openStore() {...} is defined in the generated objectbox.g.dart
@@ -17,29 +38,7 @@ class ObjectBox {
     return ObjectBox._create(store);
   }
 
-  Box<FoodCollectionItem> Food()
-  {
-    return store.box<FoodCollectionItem>();
-  }
-
-  Box<ObjectCollectionItem> Object()
-  {
-    return store.box<ObjectCollectionItem>();
-  }
-
-  // FOR FUTURE COLLECTIONS
-  // Box<FlowerCollectionItem> Flower()
-  // {
-  //   return store.box<FlowerCollectionItem>();
-  // }
-  //
-  // Box<InsectCollectionItem> Insect()
-  // {
-  //   return store.box<InsectCollectionItem>();
-  // }
-
-  void Close()
-  {
+  void Close() {
     store.close();
   }
 }

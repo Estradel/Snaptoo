@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 
-class ProfileView extends StatefulWidget {
+class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
 
   @override
-  State createState() => _CollectionViewState();
+  Widget build(BuildContext context) {
+    return _ProfileView();
+  }
 }
 
-class _CollectionViewState extends State<ProfileView> {
+class _ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(

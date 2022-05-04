@@ -7,9 +7,7 @@ abstract class CollectionState extends Equatable {
   List<Object> get props => [];
 }
 
-class CollectionChoosing extends CollectionState {} // default initial state
-
-class CollectionLoading extends CollectionState {}
+class CollectionLoading extends CollectionState {} // default initial state
 
 class CollectionLoaded extends CollectionState {
   const CollectionLoaded({required this.collectionItems, required this.category});

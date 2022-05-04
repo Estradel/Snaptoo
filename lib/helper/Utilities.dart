@@ -11,9 +11,9 @@ class Utilities {
   }
 
   static List<DropdownMenuItem<String>> getMenuItems() {
-    return [
-      const DropdownMenuItem<String>(value: "Objects", child: Text("Objets")),
-      const DropdownMenuItem<String>(value: "Food", child: Text("Nourriture")),
+    return const [
+      DropdownMenuItem<String>(value: "Objects", child: Text("Objets")),
+      DropdownMenuItem<String>(value: "Food", child: Text("Nourriture")),
     ];
   }
 }

@@ -6,9 +6,9 @@ class CollectionItem {
   int id;
 
   @Index()
-  @Unique(onConflict: ConflictStrategy.replace)
   String labelName;
 
+  @Index()
   String category;
 
   double score;

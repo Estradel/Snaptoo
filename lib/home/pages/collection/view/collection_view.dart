@@ -41,7 +41,8 @@ class CollectionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CollectionBloc(objectBox: context.read<ObjectBox>()), // loading
+      create: (context) => CollectionBloc(objectBox: context.read<ObjectBox>())
+        ..add(const LoadCollection("Objects")), // loading
       child: _CollectionView(),
     );
   }
@@ -59,10 +60,7 @@ class _CollectionView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 40),
-                const Text(
-                  'Collection',
-                  style: TextStyle(fontSize: 48),
-                ),
+                const Text('Collection', style: TextStyle(fontSize: 48)),
                 const SizedBox(height: 20),
                 MyDropBoxWidget(context),
                 const SizedBox(height: 30),
@@ -91,15 +89,13 @@ class _CollectionView extends StatelessWidget {
                                   File(state.collectionItems[index].imagePath!),
                                   height: 150,
                                   width: 150,
-                                ), // ,
+                                ),
                               ),
                             ),
                           );
                         },
                         physics: const ClampingScrollPhysics(),
                       );
-                    } else if (state is CollectionChoosing) {
-                      return const Text("Pick a category !");
                     } else {
                       return const Text("Something went wrong!");
                     }
@@ -112,32 +108,25 @@ class _CollectionView extends StatelessWidget {
   }
 
   Widget MyDropBoxWidget(BuildContext context) {
-    late String? dropDownValue;
-
     var state = context.watch<CollectionBloc>().state;
 
-    if (state is CollectionLoading) {
-      dropDownValue = "Objects";
-    } else if (state is CollectionLoaded) {
-      dropDownValue = state.category;
+    if (state is CollectionLoaded) {
+      return DropdownButton<String>(
+        value: state.category,
+        icon: const Icon(Icons.arrow_downward),
+        elevation: 16,
+        style: const TextStyle(color: Colors.deepPurple),
+        underline: Container(
+          height: 2,
+          color: Colors.deepPurpleAccent,
+        ),
+        onChanged: (String? category) {
+          context.read<CollectionBloc>().add(LoadCollection(category!));
+        },
+        items: Utilities.getMenuItems(),
+      );
     } else {
-      dropDownValue = null;
+      return const CircularProgressIndicator(color: Colors.lightBlueAccent);
     }
-
-    return DropdownButton<String>(
-      hint: const Text("Categories"),
-      value: dropDownValue,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      onChanged: (String? category) {
-        context.read<CollectionBloc>().add(LoadCollection(category!));
-      },
-      items: Utilities.getMenuItems(),
-    );
   }
 }

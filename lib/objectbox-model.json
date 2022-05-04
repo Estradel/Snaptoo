@@ -18,13 +18,15 @@
           "id": "2:797614560904065804",
           "name": "labelName",
           "type": 9,
-          "flags": 34848,
+          "flags": 2048,
           "indexId": "3:1300776308416467287"
         },
         {
           "id": "3:4669194193586940192",
           "name": "category",
-          "type": 9
+          "type": 9,
+          "flags": 2048,
+          "indexId": "4:8812758979872091088"
         },
         {
           "id": "4:3776341041189923167",
@@ -41,7 +43,7 @@
     }
   ],
   "lastEntityId": "3:8341119842047109188",
-  "lastIndexId": "3:1300776308416467287",
+  "lastIndexId": "4:8812758979872091088",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

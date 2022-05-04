@@ -111,7 +111,7 @@ class _ValidationView extends StatelessWidget {
 
             Directory appDocDir = await getApplicationDocumentsDirectory();
             String appDocPath = appDocDir.path;
-            final File newImage = await imageBytes.copy('$appDocPath/$itemName.png');
+            final File newImage = await imageBytes.copy('$appDocPath/${category}_$itemName.png');
 
             print(imageBytes.path);
             print(newImage.path);
@@ -125,7 +125,7 @@ class _ValidationView extends StatelessWidget {
                 labelName: itemName,
                 category: category,
                 score: itemScore,
-                imagePath: '$appDocPath/$itemName.png',
+                imagePath: '$appDocPath/${category}_$itemName.png',
               ),
             );
 

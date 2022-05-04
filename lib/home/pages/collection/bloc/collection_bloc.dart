@@ -17,7 +17,7 @@ part 'collection_state.dart';
 class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
   CollectionBloc({required ObjectBox objectBox})
       : _objectBox = objectBox,
-        super(CollectionChoosing()) {
+        super(CollectionLoading()) {
     on<LoadCollection>(_onLoadCollection);
   }
 

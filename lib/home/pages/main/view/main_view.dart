@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:snaptoo/helper/Utilities.dart';
 import 'package:snaptoo/views/validation_view.dart';
 import 'package:tuple/tuple.dart';
 
@@ -108,7 +109,7 @@ class MyDropBoxWidget extends StatefulWidget {
 }
 
 class _MyDropBoxWidgetState extends State<MyDropBoxWidget> {
-  String dropdownValue = 'Animaux';
+  String dropdownValue = 'Objects';
 
   @override
   Widget build(BuildContext context) {
@@ -127,13 +128,7 @@ class _MyDropBoxWidgetState extends State<MyDropBoxWidget> {
           category = dropdownValue;
         });
       },
-      items:
-          <String>['Animaux', 'Fleurs', 'Nourriture'].map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+      items: Utilities.getMenuItems(),
     );
   }
 }

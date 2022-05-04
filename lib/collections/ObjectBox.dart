@@ -22,7 +22,20 @@ class ObjectBox {
   }
 
   void addCollectionItem(CollectionItem collectionItem) {
-    store.box<CollectionItem>().put(collectionItem);
+    List<CollectionItem> yo = store
+        .box<CollectionItem>()
+        .query(CollectionItem_.labelName
+            .equals(collectionItem.labelName)
+            .and(CollectionItem_.category.equals(collectionItem.category)))
+        .build()
+        .find();
+
+    if (yo.isEmpty) {
+      store.box<CollectionItem>().put(collectionItem);
+    } else {
+      store.box<CollectionItem>().remove(yo.first.id);
+      store.box<CollectionItem>().put(collectionItem);
+    }
   }
 
   void Close() {

@@ -46,6 +46,7 @@ dependencies:
   objectbox_flutter_libs: any
   equatable: ^2.0.3
   flutter_bloc: ^8.0.1
+  shared_preferences: ^2.0.13
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,7 @@ flutter:
   assets:
     - assets/img/pizzas/
     - assets/img/slices/
+    - assets/img/profile/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

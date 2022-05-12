@@ -10,12 +10,14 @@ abstract class CollectionState extends Equatable {
 class CollectionLoading extends CollectionState {} // default initial state
 
 class CollectionLoaded extends CollectionState {
-  const CollectionLoaded({required this.collectionItems, required this.category});
+  const CollectionLoaded({
+    required this.filesAndItems,
+    required this.category,
+  });
 
-  final List<CollectionItem> collectionItems;
+  final List<Tuple2<File, CollectionItem>> filesAndItems;
   final String category;
 
-
   @override
-  List<Object> get props => [collectionItems, category];
+  List<Object> get props => [filesAndItems, category];
 }

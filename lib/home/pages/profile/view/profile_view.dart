@@ -22,8 +22,7 @@ class ProfileView extends StatefulWidget {
   State<ProfileView> createState() => _ProfileViewState();
 }
 
-class _ProfileViewState extends State<ProfileView>{
-
+class _ProfileViewState extends State<ProfileView> {
   String? pseudo = "d";
   String? imageprofile = "assets/img/profile/default.png";
   double score = 0.0;
@@ -31,7 +30,7 @@ class _ProfileViewState extends State<ProfileView>{
   IconData? iconbutton = Icons.edit;
 
   List Badge = [
-  "assets/img/profile/Badge_Pierre.png",
+    "assets/img/profile/Badge_Pierre.png",
     "assets/img/profile/Badge_Eau.png",
     "assets/img/profile/Badge_Elec.png",
     "assets/img/profile/Badge_Plante.png",
@@ -59,17 +58,15 @@ class _ProfileViewState extends State<ProfileView>{
 
     int nbBadge = CalculateBadge();
 
-    for(int i = 7; i > nbBadge; i--)
-    {
+    for (int i = 7; i > nbBadge; i--) {
       Badge.removeAt(i);
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body : SingleChildScrollView(
+        body: SingleChildScrollView(
           child: Center(
             child: Column(
               children: [
@@ -80,18 +77,20 @@ class _ProfileViewState extends State<ProfileView>{
                 ),
                 SizedBox(height: 20),
                 InkWell(
-                  onTap: () async{
-                    if(modify == true){
-                        pickedFile = await _imagePicker?.pickImage(source: ImageSource.gallery,);
-                        _image = File(pickedFile!.path);
-                        final random = Random().nextInt(1000);
-                        Directory appDocDir = await getApplicationDocumentsDirectory();
-                        String appDocPath = appDocDir.path;
-                        final File newImage = await _image!.copy('$appDocPath/$random.png');
-                        _image = newImage;
-                        await WriteSharedPrefs();
-                        setState(() {});
-                      }
+                  onTap: () async {
+                    if (modify == true) {
+                      pickedFile = await _imagePicker?.pickImage(
+                        source: ImageSource.gallery,
+                      );
+                      _image = File(pickedFile!.path);
+                      final random = Random().nextInt(1000);
+                      Directory appDocDir = await getApplicationDocumentsDirectory();
+                      String appDocPath = appDocDir.path;
+                      final File newImage = await _image!.copy('$appDocPath/$random.png');
+                      _image = newImage;
+                      await WriteSharedPrefs();
+                      setState(() {});
+                    }
                   },
                   child: ClipRRect(
                     child: Image.file(
@@ -152,18 +151,17 @@ class _ProfileViewState extends State<ProfileView>{
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton(
           child: Icon(iconbutton),
           onPressed: () {
-              modify = !modify!;
-              if(modify == true) {
-                iconbutton = Icons.done;
-              }
-              else {
-                iconbutton = Icons.edit;
-                WriteSharedPrefs();
-              }
-              setState(() {});
+            modify = !modify!;
+            if (modify == true) {
+              iconbutton = Icons.done;
+            } else {
+              iconbutton = Icons.edit;
+              WriteSharedPrefs();
+            }
+            setState(() {});
           },
         ));
   }
@@ -174,11 +172,12 @@ class _ProfileViewState extends State<ProfileView>{
     pseudo = prefs.getString('Pseudo') ?? "Sans pseudo";
     imageprofile = prefs.getString('ImageProfile') ?? "assets/img/profile/default.png";
 
-    if(imageprofile == "assets/img/profile/default.png"){
+    if (imageprofile == "assets/img/profile/default.png") {
       final byteData = await rootBundle.load('assets/img/profile/default.png');
 
       final file = File('${(await getTemporaryDirectory()).path}/default.png');
-      await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+      await file.writeAsBytes(
+          byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 
       imageprofile = file.path.toString();
     }
@@ -186,7 +185,6 @@ class _ProfileViewState extends State<ProfileView>{
     pseudocontroller.text = pseudo!;
 
     setState(() {});
-
   }
 
   WriteSharedPrefs() async {
@@ -196,57 +194,40 @@ class _ProfileViewState extends State<ProfileView>{
     prefs.setString('ImageProfile', _image!.path.toString());
 
     imageprofile = _image!.path;
-
   }
 
-  void LoadScore()
-  {
+  void LoadScore() {
     ObjectBox _objectBox = context.read<ObjectBox>();
-    var list = _objectBox.getCollectionItems().where((item) => (item.category == "Objects")).toList();
+    var list =
+        _objectBox.getCollectionItems().where((item) => (item.category == "Objects")).toList();
 
-    for(int i = 0;i < list.length; i++)
-    {
+    for (int i = 0; i < list.length; i++) {
       score += list.elementAt(i).score * 100;
     }
 
     list = _objectBox.getCollectionItems().where((item) => (item.category == "Food")).toList();
 
-    for(int i = 0;i < list.length; i++)
-    {
+    for (int i = 0; i < list.length; i++) {
       score += list.elementAt(i).score * 100;
     }
 
     score = double.parse(score.toStringAsFixed(2));
 
-
     //_objectBox.Close();
   }
 
-  int CalculateBadge()
-  {
+  int CalculateBadge() {
     int cpt = -1;
 
-    if(score > 100)
-      cpt++;
-    if(score > 200)
-      cpt++;
-    if(score > 500)
-      cpt++;
-    if(score > 1000)
-      cpt++;
-    if(score > 5000)
-      cpt++;
-    if(score > 10000)
-      cpt++;
-    if(score > 50000)
-      cpt++;
-    if(score > 100000)
-      cpt++;
+    if (score > 100) cpt++;
+    if (score > 200) cpt++;
+    if (score > 500) cpt++;
+    if (score > 1000) cpt++;
+    if (score > 5000) cpt++;
+    if (score > 10000) cpt++;
+    if (score > 50000) cpt++;
+    if (score > 100000) cpt++;
 
     return cpt;
   }
-
 }
-
-
-

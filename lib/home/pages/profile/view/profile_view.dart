@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
@@ -22,12 +23,14 @@ class ProfileView extends StatefulWidget {
   State<ProfileView> createState() => _ProfileViewState();
 }
 
-class _ProfileViewState extends State<ProfileView> {
-  String? pseudo = "d";
-  String? imageprofile = "assets/img/profile/default.png";
+class _ProfileViewState extends State<ProfileView>{
+
+  String? pseudo;
+  String? imageprofile;
   double score = 0.0;
-  bool? modify = false;
-  IconData? iconbutton = Icons.edit;
+  bool modify = false;
+  bool loading = true;
+  IconData iconbutton = Icons.edit;
 
   List Badge = [
     "assets/img/profile/Badge_Pierre.png",
@@ -76,30 +79,33 @@ class _ProfileViewState extends State<ProfileView> {
                   style: TextStyle(fontSize: 48),
                 ),
                 SizedBox(height: 20),
-                InkWell(
-                  onTap: () async {
-                    if (modify == true) {
-                      pickedFile = await _imagePicker?.pickImage(
-                        source: ImageSource.gallery,
-                      );
-                      _image = File(pickedFile!.path);
-                      final random = Random().nextInt(1000);
-                      Directory appDocDir = await getApplicationDocumentsDirectory();
-                      String appDocPath = appDocDir.path;
-                      final File newImage = await _image!.copy('$appDocPath/$random.png');
-                      _image = newImage;
-                      await WriteSharedPrefs();
-                      setState(() {});
-                    }
-                  },
-                  child: ClipRRect(
-                    child: Image.file(
-                      File(imageprofile!),
-                      height: 150,
-                      width: 150,
+                if(loading) ...[
+                  CircularProgressIndicator(),
+                ]
+                else ...[
+                  InkWell(
+                    onTap: () async{
+                      if(modify == true){
+                        pickedFile = await _imagePicker?.pickImage(source: ImageSource.gallery,);
+                        _image = File(pickedFile!.path);
+                        final random = Random().nextInt(1000);
+                        Directory appDocDir = await getApplicationDocumentsDirectory();
+                        String appDocPath = appDocDir.path;
+                        final File newImage = await _image!.copy('$appDocPath/$random.png');
+                        _image = newImage;
+                        await WriteSharedPrefs();
+                        setState(() {});
+                      }
+                    },
+                    child: ClipRRect(
+                      child: Image.file(
+                        File(imageprofile!),
+                        height: 150,
+                        width: 150,
+                      ),
                     ),
                   ),
-                ),
+                ],
                 SizedBox(height: 20),
                 Container(
                   width: 250,
@@ -154,14 +160,15 @@ class _ProfileViewState extends State<ProfileView> {
         floatingActionButton: FloatingActionButton(
           child: Icon(iconbutton),
           onPressed: () {
-            modify = !modify!;
-            if (modify == true) {
-              iconbutton = Icons.done;
-            } else {
-              iconbutton = Icons.edit;
-              WriteSharedPrefs();
-            }
-            setState(() {});
+              modify = !modify;
+              if(modify == true) {
+                iconbutton = Icons.done;
+              }
+              else {
+                iconbutton = Icons.edit;
+                WriteSharedPrefs();
+              }
+              setState(() {});
           },
         ));
   }
@@ -185,6 +192,9 @@ class _ProfileViewState extends State<ProfileView> {
     pseudocontroller.text = pseudo!;
 
     setState(() {});
+
+    loading = false;
+
   }
 
   WriteSharedPrefs() async {

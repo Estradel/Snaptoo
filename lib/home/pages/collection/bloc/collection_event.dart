@@ -10,13 +10,12 @@ abstract class CollectionEvent extends Equatable {
 class LoadingCollection extends CollectionEvent {}
 
 class LoadCollection extends CollectionEvent {
-  const LoadCollection(this.category, this.context);
+  const LoadCollection(this.category);
 
   final String category;
-  final BuildContext context;
 
   @override
-  List<Object> get props => [category, context];
+  List<Object> get props => [category];
 }
 
 // class AddPizza extends CollectionEvent {}

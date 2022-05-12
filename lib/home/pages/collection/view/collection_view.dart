@@ -19,7 +19,7 @@ class CollectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => CollectionBloc(objectBox: context.read<ObjectBox>())
-        ..add(LoadCollection("Objects", context)), // loading
+        ..add(const LoadCollection("Objects")), // loading
       child: _CollectionView(),
     );
   }
@@ -82,7 +82,8 @@ class _CollectionView extends StatelessWidget {
                         physics: const ClampingScrollPhysics(),
                       );
                     } else {
-                      return const Text("Something went wrong!");
+                      return Utilities.simpleMessageCentered(
+                          "Something went wrong.\nPlease reload the app.");
                     }
                   },
                 )
@@ -103,7 +104,7 @@ class _CollectionView extends StatelessWidget {
         color: Colors.deepPurpleAccent,
       ),
       onChanged: (String? category) {
-        context.read<CollectionBloc>().add(LoadCollection(category!, context));
+        context.read<CollectionBloc>().add(LoadCollection(category!));
       },
       items: Utilities.getMenuItems(),
     );

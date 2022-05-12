@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:snaptoo/helper/Utilities.dart';
-import 'package:snaptoo/views/validation_view.dart';
+import 'package:snaptoo/validation/view/validation_view.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../../../helper/ImageLabeler.dart';
@@ -18,7 +18,6 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-  late ImageProvider _image;
   ImagePicker? _imagePicker;
 
   double zoomLevel = 0.0, minZoomLevel = 0.0, maxZoomLevel = 0.0;
@@ -75,23 +74,12 @@ class _MainViewState extends State<MainView> {
 
   void _getImage(ImageSource source) async {
     final pickedFile = await _imagePicker?.pickImage(source: source);
-    //final pickedFile = await _controller?.takePicture();
     if (pickedFile != null) {
-      //final path = pickedFile.path;
-      final bytes = Utilities.resizeImage(await pickedFile.readAsBytes(), height: 300);
-      // final bytes = await File(path).readAsBytes();
-      _image = MemoryImage(bytes!);
-
-      List<Tuple3<String, int, double>> listLabel =
-          await ImageLabeler.getImageLabels(File(pickedFile.path));
-
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => ValidationView(
             category: category,
-            imageProv: _image,
-            imageBytes: bytes,
-            listLabel: listLabel,
+            pickedFile: pickedFile,
           ),
         ),
       );

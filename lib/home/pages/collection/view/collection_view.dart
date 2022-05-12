@@ -12,29 +12,6 @@ import '../../../../helper/Utilities.dart';
 import '../../../../objectbox.g.dart';
 import '../bloc/collection_bloc.dart';
 
-// List Animaux = [
-//   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg",
-//   "https://cdn.pixabay.com/photo/2016/05/05/02/37/sunset-1373171_960_720.jpg",
-//   "https://cdn.pixabay.com/photo/2017/02/01/22/02/mountain-landscape-2031539_960_720.jpg",
-// ];
-//
-// List Fleur = [
-//   "https://cdn.pixabay.com/photo/2014/09/14/18/04/dandelion-445228_960_720.jpg",
-//   "https://cdn.pixabay.com/photo/2016/07/11/15/43/pretty-woman-1509956_960_720.jpg",
-//   "https://cdn.pixabay.com/photo/2016/02/13/12/26/aurora-1197753_960_720.jpg",
-//   "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
-//   "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
-//   "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
-//   "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
-//   "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
-//   "https://cdn.pixabay.com/photo/2016/11/08/05/26/woman-1807533_960_720.jpg",
-// ];
-//
-// List Nourriture = [
-//   "https://cdn.pixabay.com/photo/2013/11/28/10/03/autumn-219972_960_720.jpg",
-//   "https://cdn.pixabay.com/photo/2017/12/17/19/08/away-3024773_960_720.jpg",
-// ];
-
 class CollectionView extends StatelessWidget {
   const CollectionView({Key? key}) : super(key: key);
 
@@ -42,7 +19,7 @@ class CollectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => CollectionBloc(objectBox: context.read<ObjectBox>())
-        ..add(const LoadCollection("Objects")), // loading
+        ..add(LoadCollection("Objects", context)), // loading
       child: _CollectionView(),
     );
   }
@@ -59,11 +36,20 @@ class _CollectionView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 40),
+                const SizedBox(height: 80),
                 const Text('Collection', style: TextStyle(fontSize: 48)),
                 const SizedBox(height: 20),
-                MyDropBoxWidget(context),
-                const SizedBox(height: 30),
+                BlocBuilder<CollectionBloc, CollectionState>(
+                    // all is re-built whenever the state changes
+                    builder: (context, state) {
+                  if (state is CollectionLoading) {
+                    return const CircularProgressIndicator(color: Colors.deepPurpleAccent);
+                  } else if (state is CollectionLoaded) {
+                    return customDropBoxWidget(context, state);
+                  } else {
+                    return const Text("Something went wrong!");
+                  }
+                }),
                 BlocBuilder<CollectionBloc, CollectionState>(
                   // all is re-built whenever the state changes
                   builder: (context, state) {
@@ -73,7 +59,7 @@ class _CollectionView extends StatelessWidget {
                       return ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount: state.collectionItems.length,
+                        itemCount: state.filesAndItems.length,
                         itemBuilder: (BuildContext ctx, int index) {
                           return Padding(
                             padding: const EdgeInsets.all(10),
@@ -81,14 +67,13 @@ class _CollectionView extends StatelessWidget {
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
-                                      ImageView(collectionItem: state.collectionItems[index]),
+                                      ImageView(collectionItem: state.filesAndItems[index].item2),
                                 ));
                               },
                               child: ClipRRect(
                                 child: Image.file(
-                                  File(state.collectionItems[index].imagePath!),
-                                  height: 150,
-                                  width: 150,
+                                  state.filesAndItems[index].item1,
+                                  height: 200,
                                 ),
                               ),
                             ),
@@ -107,26 +92,20 @@ class _CollectionView extends StatelessWidget {
         ));
   }
 
-  Widget MyDropBoxWidget(BuildContext context) {
-    var state = context.watch<CollectionBloc>().state;
-
-    if (state is CollectionLoaded) {
-      return DropdownButton<String>(
-        value: state.category,
-        icon: const Icon(Icons.arrow_downward),
-        elevation: 16,
-        style: const TextStyle(color: Colors.deepPurple),
-        underline: Container(
-          height: 2,
-          color: Colors.deepPurpleAccent,
-        ),
-        onChanged: (String? category) {
-          context.read<CollectionBloc>().add(LoadCollection(category!));
-        },
-        items: Utilities.getMenuItems(),
-      );
-    } else {
-      return const CircularProgressIndicator(color: Colors.lightBlueAccent);
-    }
+  Widget customDropBoxWidget(BuildContext context, CollectionLoaded state) {
+    return DropdownButton<String>(
+      value: state.category,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? category) {
+        context.read<CollectionBloc>().add(LoadCollection(category!, context));
+      },
+      items: Utilities.getMenuItems(),
+    );
   }
 }

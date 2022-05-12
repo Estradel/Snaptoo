@@ -19,8 +19,7 @@ class ImageView extends StatelessWidget {
             const SizedBox(height: 40),
             Image.file(
               File(collectionItem.imagePath!),
-              height: 150,
-              width: 150,
+              height: 300,
             ),
             const SizedBox(height: 40),
             Text('Catégorie : ' + collectionItem.category),

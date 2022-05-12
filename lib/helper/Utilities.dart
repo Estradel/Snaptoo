@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image/image.dart' as IMG;
 import 'package:snaptoo/collections/data_models/CollectionItem.dart';
 import 'package:snaptoo/collections/data_models/ObjectCollectionItem.dart';
 
@@ -15,5 +18,11 @@ class Utilities {
       DropdownMenuItem<String>(value: "Objects", child: Text("Objets")),
       DropdownMenuItem<String>(value: "Food", child: Text("Nourriture")),
     ];
+  }
+
+  static Uint8List? resizeImage(Uint8List data, {required int height}) {
+    IMG.Image? img = IMG.decodeImage(data);
+    IMG.Image resized = IMG.copyResize(img!, height: height);
+    return IMG.encodeJpg(resized) as Uint8List;
   }
 }

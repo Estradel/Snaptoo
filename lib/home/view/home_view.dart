@@ -27,7 +27,7 @@ class _HomeView extends StatelessWidget {
     final selectedTab = context.select((HomeCubit cubit) => cubit.state.currentTab);
     return Scaffold(
       body: Utilities.customCase(selectedTab, {
-        HomeTab.collection: const CollectionView(),
+        HomeTab.collection: CollectionView(),
         HomeTab.main: const MainView(),
         HomeTab.profile: const ProfileView(),
       }),

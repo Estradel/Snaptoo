@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:snaptoo/collections/data_models/ObjectCollectionItem.dart';
+import 'package:snaptoo/helper/Utilities.dart';
 import 'package:tuple/tuple.dart';
 import '../collections/ObjectBox.dart';
 import '../collections/data_models/CollectionItem.dart';
@@ -19,7 +21,7 @@ class ValidationView extends StatelessWidget {
 
   final String category;
   final ImageProvider imageProv;
-  final File imageBytes;
+  final Uint8List imageBytes;
   final List<Tuple3<String, int, double>> listLabel;
 
   @override
@@ -44,7 +46,7 @@ class _ValidationView extends StatelessWidget {
 
   final String category;
   final ImageProvider imageProv;
-  final File imageBytes;
+  final Uint8List imageBytes;
   final List<Tuple3<String, int, double>> listLabel;
 
   late final Tuple3<String, int, double> bestMatch;
@@ -57,7 +59,7 @@ class _ValidationView extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            const SizedBox(height: 50),
+            const SizedBox(height: 80),
             Image(image: imageProv, height: 300, width: 300),
             const SizedBox(height: 50),
             Text('Catégorie : ' + category),
@@ -109,11 +111,12 @@ class _ValidationView extends StatelessWidget {
             String itemName = bestMatch.item1;
             double itemScore = bestMatch.item3;
 
-            Directory appDocDir = await getApplicationDocumentsDirectory();
-            String appDocPath = appDocDir.path;
-            final File newImage = await imageBytes.copy('$appDocPath/${category}_$itemName.png');
+            String appDocPath = (await getApplicationDocumentsDirectory()).path;
+            final File newImage =
+                await File('$appDocPath/${category}_$itemName.png').writeAsBytes(imageBytes);
 
-            print(imageBytes.path);
+            //imageBytes.copy('$appDocPath/${category}_$itemName.png');
+
             print(newImage.path);
 
             // À changer à un moment donné

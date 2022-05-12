@@ -77,9 +77,10 @@ class _MainViewState extends State<MainView> {
     final pickedFile = await _imagePicker?.pickImage(source: source);
     //final pickedFile = await _controller?.takePicture();
     if (pickedFile != null) {
-      final path = pickedFile.path;
-      final bytes = await File(path).readAsBytes();
-      _image = MemoryImage(bytes);
+      //final path = pickedFile.path;
+      final bytes = Utilities.resizeImage(await pickedFile.readAsBytes(), height: 300);
+      // final bytes = await File(path).readAsBytes();
+      _image = MemoryImage(bytes!);
 
       List<Tuple3<String, int, double>> listLabel =
           await ImageLabeler.getImageLabels(File(pickedFile.path));
@@ -89,7 +90,7 @@ class _MainViewState extends State<MainView> {
           builder: (context) => ValidationView(
             category: category,
             imageProv: _image,
-            imageBytes: File(pickedFile.path),
+            imageBytes: bytes,
             listLabel: listLabel,
           ),
         ),

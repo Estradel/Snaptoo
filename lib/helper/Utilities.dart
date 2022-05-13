@@ -14,6 +14,12 @@ class Utilities {
     return IMG.encodeJpg(resized) as Uint8List;
   }
 
+  static Tuple3<String, int, double> findBestMatch(List<Tuple3<String, int, double>> labels) {
+    final best = labels.reduce((a, b) => a.item3 > b.item3 ? a : b);
+    print('\n\nBEST MATCH : $best\n\n\n');
+    return best;
+  }
+
   // This is simply a "smart" implementation of a regular switch-case that is directly usable as is
   // in the Scaffold code area.
   static TValue? customCase<TOptionType, TValue>(

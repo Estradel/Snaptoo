@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:snaptoo/collections/data_models/ObjectCollectionItem.dart';
 import 'package:snaptoo/helper/Utilities.dart';
-import 'package:snaptoo/validation/bloc/image_picker_bloc.dart';
+import 'package:snaptoo/validation/bloc/validation_bloc.dart';
 import 'package:tuple/tuple.dart';
 import '../../collections/ObjectBox.dart';
 import '../../collections/data_models/CollectionItem.dart';
@@ -25,8 +25,8 @@ class ValidationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ImagePickerBloc(objectBox: context.read<ObjectBox>())
-        ..add(PickImagePicker(pickedFile)), // loading
+      create: (context) => ValidationBloc(objectBox: context.read<ObjectBox>())
+        ..add(AnalyzeImage(pickedFile, category)), // loading
       child: _ValidationView(
         category: category,
       ),
@@ -46,11 +46,11 @@ class _ValidationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: BlocBuilder<ImagePickerBloc, ImagePickerState>(
+      body: BlocBuilder<ValidationBloc, ValidationState>(
         // all is re-built whenever the state changes
         builder: (context, state) {
-          if (state is ImagePickerPicked) {
-            Tuple3<String, int, double> bestMatch = findBestMatch(state.listLabel);
+          if (state is ImageAnalyzed) {
+            Tuple3<String, int, double> bestMatch = Utilities.findBestMatch(state.listLabel);
             return Scaffold(
               body: Center(
                 child: Column(
@@ -63,7 +63,26 @@ class _ValidationView extends StatelessWidget {
                     Text('Objet : ' + bestMatch.item1),
                     const SizedBox(height: 10),
                     Text('Note : ' + (bestMatch.item3 * 100).toStringAsFixed(2) + "%"),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 25),
+                    state.existsAlready
+                        ? const Text(
+                            'Vous possédez déjà cet objet.\nSouhaitez-vous l\'écraser ?',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : const Text(
+                            "Souhaitez-vous conserver cet objet ?",
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                    const SizedBox(height: 25),
                     Wrap(
                       spacing: 50,
                       children: [
@@ -75,7 +94,7 @@ class _ValidationView extends StatelessWidget {
                 ),
               ),
             );
-          } else if (state is ImagePickerPicking) {
+          } else if (state is ImageAnalyzing) {
             return Utilities.simpleLoadingMessage("Beep boop, please wait !");
           } else {
             return Utilities.simpleMessageCentered("Something went wrong. Please reload the app.");
@@ -103,50 +122,41 @@ class _ValidationView extends StatelessWidget {
   Widget _floatingActionButtonAdd(
       BuildContext context, Tuple3<String, int, double> bestMatch, Uint8List bytes) {
     return Container(
-        height: 50.0,
-        width: 50.0,
-        child: FloatingActionButton(
-          heroTag: "btn_add",
-          child: const Icon(
-            Icons.done,
-            size: 30,
-          ),
-          onPressed: () async {
-            String itemName = bestMatch.item1;
-            double itemScore = bestMatch.item3;
+      height: 50.0,
+      width: 50.0,
+      child: FloatingActionButton(
+        heroTag: "btn_add",
+        child: const Icon(
+          Icons.done,
+          size: 30,
+        ),
+        onPressed: () async {
+          String itemName = bestMatch.item1;
+          double itemScore = bestMatch.item3;
 
-            String appDocPath = (await getApplicationDocumentsDirectory()).path;
-            File image = await File('$appDocPath/${category}_$itemName.png').writeAsBytes(bytes);
+          String appDocPath = (await getApplicationDocumentsDirectory()).path;
+          File image = await File('$appDocPath/${category}_$itemName.png').writeAsBytes(bytes);
 
-            print(image.path);
+          print(image.path);
 
-            // À changer à un moment donné
-            //--------------------------------------------------------------
-            final objectBox = context.read<ObjectBox>();
+          // À changer à un moment donné
+          //--------------------------------------------------------------
+          final objectBox = context.read<ObjectBox>();
 
-            objectBox.addCollectionItem(
-              CollectionItem(
-                labelName: itemName,
-                category: category,
-                score: itemScore,
-                imagePath: '$appDocPath/${category}_$itemName.png',
-              ),
-            );
+          objectBox.addCollectionItem(
+            CollectionItem(
+              labelName: itemName,
+              category: category,
+              score: itemScore,
+              imagePath: '$appDocPath/${category}_$itemName.png',
+            ),
+          );
 
-            objectBox.getCollectionItems().forEach((element) {
-              print(element);
-              print("\n");
-            });
-            //--------------------------------------------------------------
+          //--------------------------------------------------------------
 
-            Navigator.pop(context);
-          },
-        ));
-  }
-
-  Tuple3<String, int, double> findBestMatch(List<Tuple3<String, int, double>> labels) {
-    final best = labels.reduce((a, b) => a.item3 > b.item3 ? a : b);
-    print('\n\nBEST MATCH : $best\n\n\n');
-    return best;
+          Navigator.pop(context);
+        },
+      ),
+    );
   }
 }

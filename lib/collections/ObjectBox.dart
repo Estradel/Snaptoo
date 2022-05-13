@@ -21,19 +21,34 @@ class ObjectBox {
     return store.box<CollectionItem>().getAll();
   }
 
-  void addCollectionItem(CollectionItem collectionItem) {
-    List<CollectionItem> yo = store
+  bool checkExistsAlready(String labelName, String category) {
+    List<CollectionItem> item = store
+        .box<CollectionItem>()
+        .query(CollectionItem_.labelName
+            .equals(labelName)
+            .and(CollectionItem_.category.equals(category)))
+        .build()
+        .find();
+
+    return item.isEmpty;
+  }
+
+  List<CollectionItem> getAlreadyExistingItem(CollectionItem collectionItem) {
+    return store
         .box<CollectionItem>()
         .query(CollectionItem_.labelName
             .equals(collectionItem.labelName)
             .and(CollectionItem_.category.equals(collectionItem.category)))
         .build()
         .find();
+  }
 
-    if (yo.isEmpty) {
+  void addCollectionItem(CollectionItem collectionItem) {
+    var item = getAlreadyExistingItem(collectionItem);
+    if (item.isEmpty) {
       store.box<CollectionItem>().put(collectionItem);
     } else {
-      store.box<CollectionItem>().remove(yo.first.id);
+      store.box<CollectionItem>().remove(item.first.id);
       store.box<CollectionItem>().put(collectionItem);
     }
   }

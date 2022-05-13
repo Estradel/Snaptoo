@@ -12,22 +12,22 @@ import '../../collections/ObjectBox.dart';
 import '../../helper/ImageLabeler.dart';
 import '../../helper/Utilities.dart';
 
-part 'image_picker_event.dart';
+part 'validation_event.dart';
 
-part 'image_picker_state.dart';
+part 'validation_state.dart';
 
-class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
-  ImagePickerBloc({required ObjectBox objectBox})
+class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
+  ValidationBloc({required ObjectBox objectBox})
       : _objectBox = objectBox,
-        super(ImagePickerInitial()) {
-    on<PickImagePicker>(_onPickImagePicker);
+        super(ValidationInitial()) {
+    on<AnalyzeImage>(_onAnalyzeImage);
   }
 
   final ObjectBox _objectBox;
 
-  Future<void> _onPickImagePicker(PickImagePicker event, Emitter<ImagePickerState> emit) async {
+  Future<void> _onAnalyzeImage(AnalyzeImage event, Emitter<ValidationState> emit) async {
     // Emit the state that will make the interface wait for resizing + labelling
-    emit(ImagePickerPicking());
+    emit(ImageAnalyzing());
 
     // Firstly resizes the image (as bytes !)
     var bytesResized = await compute(
@@ -37,7 +37,11 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
     // Secondly get the labels of the image (with ML-Kit !)
     var listLabel = await ImageLabeler.getImageLabels(File(event.pickedFile.path));
 
+    // Thirdly we check if a picture with same label+category already exists in DB
+    var bestLabel = Utilities.findBestMatch(listLabel);
+    bool existsAlready = _objectBox.checkExistsAlready(bestLabel.item1, event.category);
+
     // Emit the state that display resized image + labels and image info now that they're ready
-    emit(ImagePickerPicked(bytesResized: await bytesResized, listLabel: listLabel));
+    emit(ImageAnalyzed(bytesResized: bytesResized, listLabel: listLabel, existsAlready: existsAlready));
   }
 }

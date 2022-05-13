@@ -28,14 +28,16 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
   Future<void> _onPickImagePicker(PickImagePicker event, Emitter<ImagePickerState> emit) async {
     // Emit the state that will make the interface wait for resizing + labelling
     emit(ImagePickerPicking());
+
     // Firstly resizes the image (as bytes !)
     var bytesResized = await compute(
       Utilities().resizeImage,
-      Tuple2(await event.pickedFile.readAsBytes(), 300),
+      Tuple2(await event.pickedFile.readAsBytes(), 800),
     );
     // Secondly get the labels of the image (with ML-Kit !)
     var listLabel = await ImageLabeler.getImageLabels(File(event.pickedFile.path));
+
     // Emit the state that display resized image + labels and image info now that they're ready
-    emit(ImagePickerPicked(bytesResized: bytesResized, listLabel: listLabel));
+    emit(ImagePickerPicked(bytesResized: await bytesResized, listLabel: listLabel));
   }
 }

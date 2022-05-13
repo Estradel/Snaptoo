@@ -56,7 +56,7 @@ class _ValidationView extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 80),
-                    Image(image: MemoryImage(state.bytesResized), height: 300, width: 300),
+                    Image(image: MemoryImage(state.bytesResized), height: 300),
                     const SizedBox(height: 50),
                     Text('Catégorie : ' + category),
                     const SizedBox(height: 10),
@@ -76,7 +76,6 @@ class _ValidationView extends StatelessWidget {
               ),
             );
           } else if (state is ImagePickerPicking) {
-            print("SALUUUT ????");
             return Utilities.simpleLoadingMessage("Beep boop, please wait !");
           } else {
             return Utilities.simpleMessageCentered("Something went wrong. Please reload the app.");

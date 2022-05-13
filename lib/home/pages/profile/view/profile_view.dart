@@ -73,14 +73,14 @@ class _ProfileViewState extends State<ProfileView>{
           child: Center(
             child: Column(
               children: [
-                SizedBox(height: 80),
-                Text(
+                const SizedBox(height: 80),
+                const Text(
                   'Profile',
                   style: TextStyle(fontSize: 48),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 if(loading) ...[
-                  CircularProgressIndicator(),
+                  const CircularProgressIndicator(),
                 ]
                 else ...[
                   InkWell(
@@ -106,11 +106,11 @@ class _ProfileViewState extends State<ProfileView>{
                     ),
                   ),
                 ],
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Container(
                   width: 250,
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Pseudo",
                     ),
@@ -119,11 +119,11 @@ class _ProfileViewState extends State<ProfileView>{
                     controller: pseudocontroller,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Container(
                   width: 250,
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Score",
                     ),
@@ -132,14 +132,14 @@ class _ProfileViewState extends State<ProfileView>{
                     initialValue: score.toString(),
                   ),
                 ),
-                SizedBox(height: 20),
-                Text("Badges :"),
-                SizedBox(height: 10),
+                const SizedBox(height: 20),
+                const Text("Badges :"),
+                const SizedBox(height: 10),
                 Container(
                   height: 40,
                   child: Row(
                     children: [
-                      SizedBox(width: 15),
+                      const SizedBox(width: 15),
                       ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,

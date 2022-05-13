@@ -51,20 +51,17 @@ class Utilities {
     );
   }
 
-  static Column simpleMessageCentered(String text) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              text,
-              style: const TextStyle(fontSize: 32),
-            ),
-          ],
-        ),
-      ],
+  static Center simpleMessageCentered(String text) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            text,
+            style: const TextStyle(fontSize: 32),
+          ),
+        ],
+      ),
     );
   }
 }

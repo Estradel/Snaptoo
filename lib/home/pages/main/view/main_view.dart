@@ -47,7 +47,7 @@ class _MainViewState extends State<MainView> {
             ),
             const SizedBox(height: 20),
             const MyDropBoxWidget(),
-            const SizedBox(height: 100),
+            const SizedBox(height: 80),
             _floatingActionButton(),
           ],
         ),
@@ -57,12 +57,12 @@ class _MainViewState extends State<MainView> {
 
   Widget _floatingActionButton() {
     return Container(
-        height: 220.0,
-        width: 220.0,
+        height: 240.0,
+        width: 240.0,
         child: FloatingActionButton(
           child: const Icon(
             Icons.photo_camera_rounded,
-            size: 120,
+            size: 130,
           ),
           onPressed: _takePicture,
         ));
@@ -73,7 +73,7 @@ class _MainViewState extends State<MainView> {
   }
 
   void _getImage(ImageSource source) async {
-    final pickedFile = await _imagePicker?.pickImage(source: source);
+    final pickedFile = await _imagePicker?.pickImage(source: source, imageQuality: 75);
     if (pickedFile != null) {
       Navigator.of(context).push(
         MaterialPageRoute(

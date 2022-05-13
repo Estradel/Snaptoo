@@ -1,12 +1,19 @@
+import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as IMG;
 import 'package:snaptoo/collections/data_models/CollectionItem.dart';
 import 'package:snaptoo/collections/data_models/ObjectCollectionItem.dart';
+import 'package:tuple/tuple.dart';
 
 class Utilities {
+  Future<Uint8List> resizeImage(Tuple2<Uint8List, int> bytesAndHeight) async {
+    IMG.Image? img = IMG.decodeImage(bytesAndHeight.item1); // with compute, it doesn't block UI !
+    IMG.Image resized = IMG.copyResize(img!, height: bytesAndHeight.item2);
+    return IMG.encodeJpg(resized) as Uint8List;
+  }
+
   // This is simply a "smart" implementation of a regular switch-case that is directly usable as is
   // in the Scaffold code area.
   static TValue? customCase<TOptionType, TValue>(
@@ -21,27 +28,26 @@ class Utilities {
     ];
   }
 
-  static Future<Uint8List> resizeImage(Uint8List data, {required int height}) async {
-    IMG.Image? img = await compute(IMG.decodeImage, data); // with compute, it doesn't block UI !
-    IMG.Image resized = IMG.copyResize(img!, height: height);
-    return (await compute(IMG.encodeJpg, resized)) as Uint8List;
-  }
-
-  static Column simpleLoadingMessage(String text) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const CircularProgressIndicator(color: Colors.lightBlueAccent),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              text,
-              style: const TextStyle(fontSize: 32),
-            ),
-          ],
-        ),
-      ],
+  static Center simpleLoadingMessage(String text) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.smart_toy,
+            color: Colors.blue,
+            size: 150,
+          ),
+          const SizedBox(height: 40),
+          Text(
+            text,
+            style: const TextStyle(fontSize: 32),
+          ),
+          const SizedBox(height: 40),
+          const CircularProgressIndicator(color: Colors.lightBlueAccent),
+          const SizedBox(height: 120),
+        ],
+      ),
     );
   }
 

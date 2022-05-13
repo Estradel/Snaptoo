@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../main.dart';
@@ -44,13 +45,11 @@ class _CameraViewState extends State<CameraView> {
 
     if (cameras.any(
       (element) =>
-          element.lensDirection == widget.initialDirection &&
-          element.sensorOrientation == 90,
+          element.lensDirection == widget.initialDirection && element.sensorOrientation == 90,
     )) {
       _cameraIndex = cameras.indexOf(
         cameras.firstWhere((element) =>
-            element.lensDirection == widget.initialDirection &&
-            element.sensorOrientation == 90),
+            element.lensDirection == widget.initialDirection && element.sensorOrientation == 90),
       );
     } else {
       _cameraIndex = cameras.indexOf(
@@ -99,7 +98,7 @@ class _CameraViewState extends State<CameraView> {
   Widget _body() {
     Widget body;
     //if (_mode == ScreenMode.liveFeed) {
-      body = _liveFeedBody();
+    body = _liveFeedBody();
     /*} else {
       body = _galleryBody();
     }*/
@@ -147,9 +146,7 @@ class _CameraViewState extends State<CameraView> {
                   _controller!.setZoomLevel(zoomLevel);
                 });
               },
-              divisions: (maxZoomLevel - 1).toInt() < 1
-                  ? null
-                  : (maxZoomLevel - 1).toInt(),
+              divisions: (maxZoomLevel - 1).toInt() < 1 ? null : (maxZoomLevel - 1).toInt(),
             ),
           )
         ],
@@ -244,9 +241,7 @@ class _CameraViewState extends State<CameraView> {
   }
 
   Future _takePicture() async {
-
     _getImage(ImageSource.camera);
-
   }
 
   Future _processPickedFile(XFile? pickedFile) async {
@@ -268,17 +263,15 @@ class _CameraViewState extends State<CameraView> {
     }
     final bytes = allBytes.done().buffer.asUint8List();
 
-    final Size imageSize =
-        Size(image.width.toDouble(), image.height.toDouble());
+    final Size imageSize = Size(image.width.toDouble(), image.height.toDouble());
 
     final camera = cameras[_cameraIndex];
-    final imageRotation =
-        InputImageRotationMethods.fromRawValue(camera.sensorOrientation) ??
-            InputImageRotation.Rotation_0deg;
+
+    final imageRotation = InputImageRotationValue.fromRawValue(camera.sensorOrientation) ??
+        InputImageRotation.rotation0deg;
 
     final inputImageFormat =
-        InputImageFormatMethods.fromRawValue(image.format.raw) ??
-            InputImageFormat.NV21;
+        InputImageFormatValue.fromRawValue(image.format.raw) ?? InputImageFormat.nv21;
 
     final planeData = image.planes.map(
       (Plane plane) {
@@ -297,8 +290,7 @@ class _CameraViewState extends State<CameraView> {
       planeData: planeData,
     );
 
-    final inputImage =
-        InputImage.fromBytes(bytes: bytes, inputImageData: inputImageData);
+    final inputImage = InputImage.fromBytes(bytes: bytes, inputImageData: inputImageData);
 
     widget.onImage(inputImage);
   }

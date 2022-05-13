@@ -73,7 +73,7 @@ class _ProfileViewState extends State<ProfileView>{
           child: Center(
             child: Column(
               children: [
-                SizedBox(height: 100),
+                SizedBox(height: 80),
                 Text(
                   'Profile',
                   style: TextStyle(fontSize: 48),

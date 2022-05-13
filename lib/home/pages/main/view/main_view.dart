@@ -40,12 +40,12 @@ class _MainViewState extends State<MainView> {
       body: Center(
         child: Column(
           children: [
-            const SizedBox(height: 80),
+            const SizedBox(height:80),
             const Text(
               'Snaptoo',
-              style: TextStyle(fontSize: 48),
+              style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 100),
+            const SizedBox(height: 20),
             const MyDropBoxWidget(),
             const SizedBox(height: 100),
             _floatingActionButton(),
@@ -57,12 +57,12 @@ class _MainViewState extends State<MainView> {
 
   Widget _floatingActionButton() {
     return Container(
-        height: 70.0,
-        width: 70.0,
+        height: 220.0,
+        width: 220.0,
         child: FloatingActionButton(
           child: const Icon(
             Icons.photo_camera_rounded,
-            size: 40,
+            size: 120,
           ),
           onPressed: _takePicture,
         ));

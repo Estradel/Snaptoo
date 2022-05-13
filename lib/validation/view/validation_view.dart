@@ -77,8 +77,7 @@ class _ValidationView extends StatelessWidget {
             );
           } else if (state is ImagePickerPicking) {
             print("SALUUUT ????");
-            return Utilities.simpleLoadingMessage(
-                "Beep-bop, please wait.");
+            return Utilities.simpleLoadingMessage("Beep boop, please wait !");
           } else {
             return Utilities.simpleMessageCentered("Something went wrong. Please reload the app.");
           }

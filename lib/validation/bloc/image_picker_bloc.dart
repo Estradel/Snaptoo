@@ -1,11 +1,11 @@
-import 'dart:async';
 import 'dart:io';
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../collections/ObjectBox.dart';
@@ -28,20 +28,13 @@ class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
   Future<void> _onPickImagePicker(PickImagePicker event, Emitter<ImagePickerState> emit) async {
     // Emit the state that will make the interface wait for resizing + labelling
     emit(ImagePickerPicking());
-
-    print("YOOO ???");
-
-    // First resizes, then gets the labels
-    var bytesResized =
-        await Utilities.resizeImage(await event.pickedFile.readAsBytes(), height: 300);
-    print("YOOO-KRRRRRRRR ???");
-
-
+    // Firstly resizes the image (as bytes !)
+    var bytesResized = await compute(
+      Utilities().resizeImage,
+      Tuple2(await event.pickedFile.readAsBytes(), 300),
+    );
+    // Secondly get the labels of the image (with ML-Kit !)
     var listLabel = await ImageLabeler.getImageLabels(File(event.pickedFile.path));
-
-    print("YOOO-BDDDDDDDDDDDDD ???");
-
-
     // Emit the state that display resized image + labels and image info now that they're ready
     emit(ImagePickerPicked(bytesResized: bytesResized, listLabel: listLabel));
   }

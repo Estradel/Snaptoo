@@ -73,7 +73,7 @@ class _CollectionView extends StatelessWidget {
                               child: ClipRRect(
                                 child: Image.file(
                                   state.filesAndItems[index].item1,
-                                  height: 200,
+                                  height: 250,
                                 ),
                               ),
                             ),

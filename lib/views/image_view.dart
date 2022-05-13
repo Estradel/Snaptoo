@@ -16,7 +16,7 @@ class ImageView extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: 100),
             Image.file(
               File(collectionItem.imagePath!),
               height: 300,

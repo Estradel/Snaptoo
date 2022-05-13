@@ -55,7 +55,7 @@ class _ValidationView extends StatelessWidget {
               body: Center(
                 child: Column(
                   children: [
-                    const SizedBox(height: 80),
+                    const SizedBox(height: 100),
                     Image(image: MemoryImage(state.bytesResized), height: 300),
                     const SizedBox(height: 50),
                     Text('Catégorie : ' + category),

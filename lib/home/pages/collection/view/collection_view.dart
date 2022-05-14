@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snaptoo/views/image_view.dart';
 
 import '../../../../collections/ObjectBox.dart';
@@ -17,9 +18,12 @@ class CollectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final prefs = context.read<SharedPreferences>();
     return BlocProvider(
-      create: (context) => CollectionBloc(objectBox: context.read<ObjectBox>())
-        ..add(const LoadCollection("Objects")), // loading
+      create: (context) => CollectionBloc(
+        objectBox: context.read<ObjectBox>(),
+        prefs: prefs,
+      )..add(const LoadCollection()), // loading
       child: _CollectionView(),
     );
   }
@@ -104,7 +108,7 @@ class _CollectionView extends StatelessWidget {
         color: Colors.deepPurpleAccent,
       ),
       onChanged: (String? category) {
-        context.read<CollectionBloc>().add(LoadCollection(category!));
+        context.read<CollectionBloc>().add(SetCategory(category: category!));
       },
       items: Utils.getMenuItems(),
     );

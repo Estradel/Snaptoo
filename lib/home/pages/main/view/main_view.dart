@@ -1,14 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snaptoo/helper/Utils.dart';
 import 'package:snaptoo/validation/view/validation_view.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../../../helper/ImageLabeler.dart';
 
-String category = "Objects";
+late SharedPreferences prefs;
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -36,11 +38,12 @@ class _MainViewState extends State<MainView> {
 
   @override
   Widget build(BuildContext context) {
+    prefs = context.read<SharedPreferences>();
     return Scaffold(
       body: Center(
         child: Column(
           children: [
-            const SizedBox(height:80),
+            const SizedBox(height: 80),
             const Text(
               'Snaptoo',
               style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
@@ -78,7 +81,7 @@ class _MainViewState extends State<MainView> {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => ValidationView(
-            category: category,
+            category: prefs.getString('Main_Category') ?? Utils.DEFAULT_CATEGORY,
             pickedFile: pickedFile,
           ),
         ),
@@ -98,7 +101,7 @@ class MyDropBoxWidget extends StatefulWidget {
 }
 
 class _MyDropBoxWidgetState extends State<MyDropBoxWidget> {
-  String dropdownValue = 'Objects';
+  String dropdownValue = prefs.getString('Main_Category') ?? Utils.DEFAULT_CATEGORY;
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +117,7 @@ class _MyDropBoxWidgetState extends State<MyDropBoxWidget> {
       onChanged: (String? newValue) {
         setState(() {
           dropdownValue = newValue!;
-          category = dropdownValue;
+          prefs.setString('Main_Category', dropdownValue);
         });
       },
       items: Utils.getMenuItems(),

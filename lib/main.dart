@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'collections/ObjectBox.dart';
 import 'my_app.dart';
@@ -14,6 +15,8 @@ Future<void> main() async {
   cameras = await availableCameras();
   /// ObjectBox
   final objectBox = await ObjectBox.create();
+  /// SharePreferences
+  final prefs = await SharedPreferences.getInstance();
 
-  runApp(MyApp(objectBox: objectBox));
+  runApp(MyApp(objectBox: objectBox, prefs : prefs));
 }

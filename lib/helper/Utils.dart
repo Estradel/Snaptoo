@@ -14,8 +14,11 @@ class Utils {
   |*		        Static		      	*|
   \*------------------------------*/
 
+  // Define the category selected by default (and then it's saved in the shared preferences)
+  static const String DEFAULT_CATEGORY = "Objects";
+
   // Must be changed whenever a new category of ML-Kit model is added
-  static Map<String, String> categories = {
+  static const Map<String, String> CATEGORIES = {
     "Objects": "Objets",
     "Food": "Nourriture",
   };
@@ -52,7 +55,7 @@ class Utils {
 
   static List<DropdownMenuItem<String>> getMenuItems() {
     return [
-      for (var category in categories.entries)
+      for (var category in Utils.CATEGORIES.entries)
         DropdownMenuItem<String>(value: category.key, child: Text(category.value))
     ];
   }
@@ -112,7 +115,7 @@ class Utils {
           )),
       const SizedBox(height: 15),
       Text(
-        'Catégorie : ${Utils.categories[category]}',
+        'Catégorie : ${Utils.CATEGORIES[category]}',
         style: const TextStyle(fontSize: 18),
       ),
       const SizedBox(height: 5),

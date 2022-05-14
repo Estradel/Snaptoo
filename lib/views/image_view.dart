@@ -21,12 +21,16 @@ class ImageView extends StatelessWidget {
               File(collectionItem.imagePath!),
               height: 300,
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
+            Text(collectionItem.labelName,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                )),
+            const SizedBox(height: 20),
             Text('Catégorie : ' + collectionItem.category),
-            const SizedBox(height: 20),
-            Text('Objet : ' + collectionItem.labelName),
-            const SizedBox(height: 20),
-            Text('Note : ' + (collectionItem.score * 100).toStringAsFixed(2) + "%")
+            const SizedBox(height: 10),
+            Text('Score : ' + (collectionItem.score * 100).toStringAsFixed(2) + "%")
           ],
         ),
       ),

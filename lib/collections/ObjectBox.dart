@@ -30,7 +30,9 @@ class ObjectBox {
         .build()
         .find();
 
-    return item.isEmpty;
+    print(item);
+
+    return item.isNotEmpty;
   }
 
   List<CollectionItem> getAlreadyExistingItem(CollectionItem collectionItem) {

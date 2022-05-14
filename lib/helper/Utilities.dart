@@ -16,7 +16,6 @@ class Utilities {
 
   static Tuple3<String, int, double> findBestMatch(List<Tuple3<String, int, double>> labels) {
     final best = labels.reduce((a, b) => a.item3 > b.item3 ? a : b);
-    print('\n\nBEST MATCH : $best\n\n\n');
     return best;
   }
 

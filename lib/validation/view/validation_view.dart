@@ -57,12 +57,16 @@ class _ValidationView extends StatelessWidget {
                   children: [
                     const SizedBox(height: 100),
                     Image(image: MemoryImage(state.bytesResized), height: 300),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 20),
+                    Text(bestMatch.item1,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        )),
+                    const SizedBox(height: 20),
                     Text('Catégorie : ' + category),
                     const SizedBox(height: 10),
-                    Text('Objet : ' + bestMatch.item1),
-                    const SizedBox(height: 10),
-                    Text('Note : ' + (bestMatch.item3 * 100).toStringAsFixed(2) + "%"),
+                    Text('Score : ' + (bestMatch.item3 * 100).toStringAsFixed(2) + "%"),
                     const SizedBox(height: 25),
                     state.existsAlready
                         ? const Text(
@@ -70,7 +74,7 @@ class _ValidationView extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.red,
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           )
@@ -78,7 +82,7 @@ class _ValidationView extends StatelessWidget {
                             "Souhaitez-vous conserver cet objet ?",
                             style: TextStyle(
                               color: Colors.blue,
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -86,8 +90,17 @@ class _ValidationView extends StatelessWidget {
                     Wrap(
                       spacing: 50,
                       children: [
-                        _floatingActionButtonDelete(context, bestMatch),
-                        _floatingActionButtonAdd(context, bestMatch, state.bytesResized),
+                        _floatingActionButtonDelete(
+                          context,
+                          bestMatch,
+                          state.existsAlready,
+                        ),
+                        _floatingActionButtonAdd(
+                          context,
+                          bestMatch,
+                          state.bytesResized,
+                          state.existsAlready,
+                        ),
                       ],
                     )
                   ],
@@ -104,12 +117,15 @@ class _ValidationView extends StatelessWidget {
     );
   }
 
-  Widget _floatingActionButtonDelete(BuildContext context, Tuple3<String, int, double> bestMatch) {
+  Widget _floatingActionButtonDelete(
+      BuildContext context, Tuple3<String, int, double> bestMatch, bool existAlready) {
+    var color = existAlready ? Colors.red : Colors.blue;
     return Container(
         height: 50.0,
         width: 50.0,
         child: FloatingActionButton(
             heroTag: "btn_delete",
+            backgroundColor: color,
             child: const Icon(
               Icons.delete,
               size: 30,
@@ -119,13 +135,15 @@ class _ValidationView extends StatelessWidget {
             }));
   }
 
-  Widget _floatingActionButtonAdd(
-      BuildContext context, Tuple3<String, int, double> bestMatch, Uint8List bytes) {
+  Widget _floatingActionButtonAdd(BuildContext context, Tuple3<String, int, double> bestMatch,
+      Uint8List bytes, bool existAlready) {
+    var color = existAlready ? Colors.red : Colors.blue;
     return Container(
       height: 50.0,
       width: 50.0,
       child: FloatingActionButton(
         heroTag: "btn_add",
+        backgroundColor: color,
         child: const Icon(
           Icons.done,
           size: 30,

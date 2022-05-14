@@ -29,7 +29,7 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
     // Emit the state that will make the interface wait for resizing + labelling
     emit(ImageAnalyzing());
 
-    await Future.delayed(const Duration(milliseconds: 500), (){});
+    await Future.delayed(const Duration(milliseconds: 500), () {});
 
     // Secondly get the labels of the image (with ML-Kit !)
     var listLabel = await ImageLabeler.getImageLabels(File(event.pickedFile.path));
@@ -44,6 +44,9 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
 
     // Emit the state that display resized image + labels and image info now that they're ready
     emit(ImageAnalyzed(
-        bytesResized: bytesResized, listLabel: listLabel, existsAlready: existsAlready));
+      bytesResized: bytesResized,
+      listLabel: listLabel,
+      existsAlready: existsAlready,
+    ));
   }
 }

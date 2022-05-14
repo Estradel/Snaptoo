@@ -22,9 +22,9 @@ class ItemDetailsBloc extends Bloc<ItemDetailsEvent, ItemDetailsState> {
   final ObjectBox _objectBox;
 
   Future<void> _onDeleteItem(DeleteItem event, Emitter<ItemDetailsState> emit) async {
-    // Firstly the collection item is removed from the DB
-    _objectBox.removeCollectionItem(event.itemId);
-    // Secondly the image file is removed from the phone storage
+    // Firstly the image file is removed from the phone storage
     Utils.deleteFile(File(event.imagePath));
+    // Secondly the collection item is removed from the DB
+    _objectBox.removeCollectionItem(event.itemId);
   }
 }

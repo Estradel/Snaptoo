@@ -129,8 +129,8 @@ class _ValidationView extends StatelessWidget {
   }
 
   Widget _floatingActionButtonAdd(BuildContext context, Tuple2<String, double> bestMatch,
-      Uint8List bytesResized, bool existAlready) {
-    var color = existAlready ? Colors.red : Colors.blue;
+      Uint8List bytesResized, bool existsAlready) {
+    var color = existsAlready ? Colors.red : Colors.blue;
     return Container(
       height: 50.0,
       width: 50.0,
@@ -145,18 +145,22 @@ class _ValidationView extends StatelessWidget {
           String itemName = bestMatch.item1;
           double itemScore = bestMatch.item2;
 
-          String appDocPath = (await getApplicationDocumentsDirectory()).path;
-          File image =
-              await File('$appDocPath/${category}_$itemName.png').writeAsBytes(bytesResized);
+          String imagePath =
+              '${(await getApplicationDocumentsDirectory()).path}/${category}_$itemName.png';
 
-          context.read<ValidationBloc>().add(SaveItem(
-                CollectionItem(
-                  labelName: itemName,
-                  category: category,
-                  score: itemScore,
-                  imagePath: '$appDocPath/${category}_$itemName.png',
+          context.read<ValidationBloc>().add(
+                SaveItem(
+                  collectionItem: CollectionItem(
+                    labelName: itemName,
+                    category: category,
+                    score: itemScore,
+                    imagePath: imagePath,
+                  ),
+                  imagePath: imagePath,
+                  bytesResized: bytesResized,
+                  existsAlready: existsAlready,
                 ),
-              ));
+              );
 
           Navigator.pop(context);
         },

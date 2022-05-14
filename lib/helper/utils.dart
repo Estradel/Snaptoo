@@ -52,6 +52,12 @@ class Utils {
     return branches[selectedOption];
   }
 
+  // File related
+
+  static Future<void> saveFile(String path, Uint8List bytesResized) async {
+    await File(path).writeAsBytes(bytesResized);
+  }
+
   static Future<void> deleteFile(File file) async {
     try {
       if (await file.exists()) {

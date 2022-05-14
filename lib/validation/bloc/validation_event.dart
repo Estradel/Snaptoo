@@ -10,12 +10,20 @@ abstract class ValidationEvent extends Equatable {
 class InitValidation extends ValidationEvent {} // default initial state
 
 class SaveItem extends ValidationEvent {
-  const SaveItem(this.collectionItem);
+  const SaveItem({
+    required this.collectionItem,
+    required this.imagePath,
+    required this.bytesResized,
+    required this.existsAlready,
+  });
 
   final CollectionItem collectionItem;
+  final String imagePath;
+  final Uint8List bytesResized;
+  final bool existsAlready;
 
   @override
-  List<Object> get props => [collectionItem];
+  List<Object> get props => [collectionItem, imagePath, bytesResized, existsAlready];
 }
 
 class AnalyzeImage extends ValidationEvent {

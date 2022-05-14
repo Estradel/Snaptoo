@@ -27,7 +27,10 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
 
   final ObjectBox _objectBox;
 
-  void _onSaveItem(SaveItem event, Emitter<ValidationState> emit) {
+  Future<void> _onSaveItem(SaveItem event, Emitter<ValidationState> emit) async {
+    // Firstly the image file is saved on the phone storage
+    Utils.saveFile(event.imagePath, event.bytesResized);
+    // Secondly the collection item is added to the DB
     _objectBox.addCollectionItem(event.collectionItem);
   }
 

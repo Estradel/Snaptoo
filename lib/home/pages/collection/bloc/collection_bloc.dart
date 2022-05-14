@@ -14,7 +14,7 @@ import 'package:tuple/tuple.dart';
 
 import '../../../../collections/ObjectBox.dart';
 import '../../../../objectbox.g.dart';
-import '../../../../views/details_view.dart';
+import '../../../../item_details/item_details_view.dart';
 
 part 'collection_event.dart';
 

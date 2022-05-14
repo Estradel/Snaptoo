@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:snaptoo/views/details_view.dart';
+import 'package:snaptoo/item_details/item_details_view.dart';
 
 import '../../../../collections/ObjectBox.dart';
 import '../../../../collections/data_models/CollectionItem.dart';

@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:objectbox/internal.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:snaptoo/views/details_view.dart';
+import 'package:snaptoo/item_details/item_details_view.dart';
 
 import '../../../../collections/ObjectBox.dart';
 import '../../../../objectbox.g.dart';

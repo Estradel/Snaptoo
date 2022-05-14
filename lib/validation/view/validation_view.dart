@@ -101,7 +101,7 @@ class _ValidationView extends StatelessWidget {
               ),
             );
           } else if (state is ImageAnalyzing) {
-            return Utils.simpleLoadingMessage("Beep boop, please wait !", state.putCircle);
+            return Utils.simpleLoadingMessage("Calcul en cours !", state.putCircle);
           } else {
             return Utils.simpleMessageCentered("Something went wrong. Please reload the app.");
           }
@@ -128,8 +128,8 @@ class _ValidationView extends StatelessWidget {
             }));
   }
 
-  Widget _floatingActionButtonAdd(
-      BuildContext context, Tuple2<String, double> bestMatch, Uint8List bytes, bool existAlready) {
+  Widget _floatingActionButtonAdd(BuildContext context, Tuple2<String, double> bestMatch,
+      Uint8List bytesResized, bool existAlready) {
     var color = existAlready ? Colors.red : Colors.blue;
     return Container(
       height: 50.0,
@@ -146,7 +146,8 @@ class _ValidationView extends StatelessWidget {
           double itemScore = bestMatch.item2;
 
           String appDocPath = (await getApplicationDocumentsDirectory()).path;
-          File image = await File('$appDocPath/${category}_$itemName.png').writeAsBytes(bytes);
+          File image =
+              await File('$appDocPath/${category}_$itemName.png').writeAsBytes(bytesResized);
 
           context.read<ValidationBloc>().add(SaveItem(
                 CollectionItem(

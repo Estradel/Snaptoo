@@ -1,8 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:image/image.dart' as IMG;
+import 'package:image/image.dart' as img;
 import 'package:tuple/tuple.dart';
 
 class Utils {
@@ -30,9 +31,9 @@ class Utils {
   // Is not static because it is used in the 'compute' function, which allows to perform
   // this CPU intensive task in its own isolate without blocking the UI.
   Future<Uint8List> resizeImage(Tuple2<Uint8List, int> bytesAndHeight) async {
-    IMG.Image? img = IMG.decodeImage(bytesAndHeight.item1); // with compute, it doesn't block UI !
-    IMG.Image resized = IMG.copyResize(img!, height: bytesAndHeight.item2);
-    return IMG.encodeJpg(resized) as Uint8List;
+    img.Image? image = img.decodeImage(bytesAndHeight.item1); // with compute, it doesn't block UI !
+    img.Image resized = img.copyResize(image!, height: bytesAndHeight.item2);
+    return img.encodeJpg(resized) as Uint8List;
   }
 
   /*------------------------------*\
@@ -51,6 +52,16 @@ class Utils {
     return branches[selectedOption];
   }
 
+  static Future<void> deleteFile(File file) async {
+    try {
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } catch (e) {
+      // Error in getting access to the file.
+    }
+  }
+
   // UI related
 
   static List<DropdownMenuItem<String>> getMenuItems() {
@@ -65,20 +76,33 @@ class Utils {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const SizedBox(height: 160),
+          const SizedBox(height: 120),
           const Icon(
             Icons.smart_toy,
             color: Colors.blue,
             size: 150,
           ),
-          const SizedBox(height: 40),
+          const Text(
+            "« beep beep boop »",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue,
+            ),
+          ),
+          const SizedBox(height: 85),
           Text(
             text,
-            style: const TextStyle(fontSize: 32),
+            style: const TextStyle(fontSize: 30),
           ),
           if (putCircle) ...[
-            const SizedBox(height: 40),
-            const CircularProgressIndicator(color: Colors.lightBlueAccent),
+            const SizedBox(height: 20),
+            const SizedBox(
+              child: CircularProgressIndicator(),
+              height: 25,
+              width: 25,
+            ),
           ],
         ],
       ),

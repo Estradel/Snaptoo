@@ -12,11 +12,10 @@ class CollectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = context.read<SharedPreferences>();
     return BlocProvider(
       create: (context) => CollectionBloc(
         objectBox: context.read<ObjectBox>(),
-        prefs: prefs,
+        prefs: context.read<SharedPreferences>(),
       )..add(const LoadCollection()), // loading
       child: _CollectionView(),
     );
@@ -36,12 +35,14 @@ class _CollectionView extends StatelessWidget {
               children: [
                 const SizedBox(height: 80),
                 const Text('Collection', style: TextStyle(fontSize: 48)),
-                const SizedBox(height: 20),
+                const SizedBox(height: 2),
                 BlocBuilder<CollectionBloc, CollectionState>(
                     // all is re-built whenever the state changes
                     builder: (context, state) {
                   if (state is CollectionLoading) {
-                    return const CircularProgressIndicator(color: Colors.deepPurpleAccent);
+                    return const Padding(
+                        padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
+                        child: CircularProgressIndicator(color: Colors.deepPurpleAccent));
                   } else if (state is CollectionLoaded) {
                     return customDropBoxWidget(context, state);
                   } else {
@@ -52,33 +53,66 @@ class _CollectionView extends StatelessWidget {
                   // all is re-built whenever the state changes
                   builder: (context, state) {
                     if (state is CollectionLoading) {
-                      return const CircularProgressIndicator(color: Colors.lightBlueAccent);
+                      return const Padding(
+                        padding: EdgeInsets.fromLTRB(0, 180, 0, 0),
+                        child: CircularProgressIndicator(color: Colors.lightBlueAccent),
+                      );
                     } else if (state is CollectionLoaded) {
-                      return ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: state.filesAndItems.length,
-                        itemBuilder: (BuildContext ctx, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      DetailsView(collectionItem: state.filesAndItems[index].item2),
-                                ));
-                              },
-                              child: ClipRRect(
-                                child: Image.file(
-                                  state.filesAndItems[index].item1,
-                                  height: 225,
-                                ),
+                      if (state.filesAndItems.isEmpty) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 70),
+                            Icon(
+                              Icons.image_search,
+                              size: 160,
+                              color: Colors.black.withOpacity(0.25),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              "Cette collection est vide !",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black.withOpacity(0.25),
                               ),
                             ),
-                          );
-                        },
-                        physics: const ClampingScrollPhysics(),
-                      );
+                          ],
+                        );
+                      } else {
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: state.filesAndItems.length,
+                            itemBuilder: (BuildContext ctx, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: InkWell(
+                                  onTap: () async {
+                                    final value =
+                                        await Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => DetailsView(
+                                          collectionItem: state.filesAndItems[index].item2),
+                                    ));
+                                    context.read<CollectionBloc>().add(const LoadCollection());
+                                  },
+                                  child: ClipRRect(
+                                    child: Image.file(
+                                      state.filesAndItems[index].item1,
+                                      height: 225,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            physics: const ClampingScrollPhysics(),
+                          ),
+                        );
+                      }
                     } else {
                       return Utils.simpleMessageCentered(
                           "Something went wrong.\nPlease reload the app.");
@@ -96,7 +130,7 @@ class _CollectionView extends StatelessWidget {
       value: state.category,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
+      style: const TextStyle(color: Colors.deepPurple, fontSize: 20),
       underline: Container(
         height: 2,
         color: Colors.deepPurpleAccent,

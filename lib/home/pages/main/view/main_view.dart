@@ -43,7 +43,7 @@ class _MainViewState extends State<MainView> {
               'Snaptoo',
               style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 2),
             const MyDropBoxWidget(),
             const SizedBox(height: 80),
             _floatingActionButton(),
@@ -55,15 +55,16 @@ class _MainViewState extends State<MainView> {
 
   Widget _floatingActionButton() {
     return Container(
-        height: 240.0,
-        width: 240.0,
-        child: FloatingActionButton(
-          child: const Icon(
-            Icons.photo_camera_rounded,
-            size: 130,
-          ),
-          onPressed: _takePicture,
-        ));
+      height: 225.0,
+      width: 225.0,
+      child: FloatingActionButton(
+        child: const Icon(
+          Icons.photo_camera_rounded,
+          size: 125,
+        ),
+        onPressed: _takePicture,
+      ),
+    );
   }
 
   void _takePicture() async {
@@ -104,7 +105,7 @@ class _MyDropBoxWidgetState extends State<MyDropBoxWidget> {
       value: dropdownValue,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
-      style: const TextStyle(color: Colors.deepPurple),
+      style: const TextStyle(color: Colors.deepPurple, fontSize: 20),
       underline: Container(
         height: 2,
         color: Colors.deepPurpleAccent,

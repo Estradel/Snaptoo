@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:objectbox/src/native/box.dart';
 import 'package:snaptoo/collections/data_models/CollectionItem.dart';
 import 'package:snaptoo/collections/data_models/ObjectCollectionItem.dart';
-import 'package:snaptoo/helper/Utilities.dart';
+import 'package:snaptoo/helper/Utils.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../../../collections/ObjectBox.dart';

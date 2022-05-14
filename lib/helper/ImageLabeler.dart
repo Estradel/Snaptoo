@@ -6,8 +6,8 @@ import 'package:tuple/tuple.dart';
 
 class ImageLabeler {
   // Returns all the labels along with the index and confidence for given image.
-  static Future<List<Tuple3<String, int, double>>> getImageLabels(File file) async {
-    List<Tuple3<String, int, double>> listLabel = [];
+  static Future<List<Tuple2<String, double>>> getImageLabels(File file) async {
+    List<Tuple2<String, double>> listLabel = [];
     // Create an InputImage
     final inputImage = InputImage.fromFile(file);
     // Create an instance of detector
@@ -17,7 +17,7 @@ class ImageLabeler {
     // Extract data from response
     // Extract labels
     for (ImageLabel label in labels) {
-      listLabel.add(Tuple3(label.label, label.index, label.confidence));
+      listLabel.add(Tuple2(label.label, label.confidence));
     }
     // Release resources
     imageLabeler.close();

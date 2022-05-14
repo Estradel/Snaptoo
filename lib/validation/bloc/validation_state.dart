@@ -22,7 +22,7 @@ class ImageAnalyzed extends ValidationState {
   });
 
   final Uint8List bytesResized;
-  final List<Tuple3<String, int, double>> listLabel;
+  final List<Tuple2<String, double>> listLabel;
   final bool existsAlready;
 
   @override

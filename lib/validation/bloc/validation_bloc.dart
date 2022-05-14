@@ -10,7 +10,7 @@ import 'package:tuple/tuple.dart';
 
 import '../../collections/ObjectBox.dart';
 import '../../helper/ImageLabeler.dart';
-import '../../helper/Utilities.dart';
+import '../../helper/Utils.dart';
 
 part 'validation_event.dart';
 
@@ -35,11 +35,11 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
     var listLabel = await ImageLabeler.getImageLabels(File(event.pickedFile.path));
     // Firstly resizes the image (as bytes !)
     var bytesResized = await compute(
-      Utilities().resizeImage,
+      Utils().resizeImage,
       Tuple2(await event.pickedFile.readAsBytes(), 800),
     );
     // Thirdly we check if a picture with same label+category already exists in DB
-    var bestLabel = Utilities.findBestMatch(listLabel);
+    var bestLabel = Utils.findBestMatch(listLabel);
     bool existsAlready = _objectBox.checkExistsAlready(bestLabel.item1, event.category);
 
     // Emit the state that display resized image + labels and image info now that they're ready

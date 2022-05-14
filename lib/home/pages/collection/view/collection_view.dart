@@ -8,7 +8,7 @@ import 'package:snaptoo/views/image_view.dart';
 import '../../../../collections/ObjectBox.dart';
 import '../../../../collections/data_models/CollectionItem.dart';
 import '../../../../collections/data_models/ObjectCollectionItem.dart';
-import '../../../../helper/Utilities.dart';
+import '../../../../helper/Utils.dart';
 import '../../../../objectbox.g.dart';
 import '../bloc/collection_bloc.dart';
 
@@ -73,7 +73,7 @@ class _CollectionView extends StatelessWidget {
                               child: ClipRRect(
                                 child: Image.file(
                                   state.filesAndItems[index].item1,
-                                  height: 250,
+                                  height: 225,
                                 ),
                               ),
                             ),
@@ -82,7 +82,7 @@ class _CollectionView extends StatelessWidget {
                         physics: const ClampingScrollPhysics(),
                       );
                     } else {
-                      return Utilities.simpleMessageCentered(
+                      return Utils.simpleMessageCentered(
                           "Something went wrong.\nPlease reload the app.");
                     }
                   },
@@ -106,7 +106,7 @@ class _CollectionView extends StatelessWidget {
       onChanged: (String? category) {
         context.read<CollectionBloc>().add(LoadCollection(category!));
       },
-      items: Utilities.getMenuItems(),
+      items: Utils.getMenuItems(),
     );
   }
 }

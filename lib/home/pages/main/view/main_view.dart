@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:snaptoo/helper/Utilities.dart';
+import 'package:snaptoo/helper/Utils.dart';
 import 'package:snaptoo/validation/view/validation_view.dart';
 import 'package:tuple/tuple.dart';
 
@@ -117,7 +117,7 @@ class _MyDropBoxWidgetState extends State<MyDropBoxWidget> {
           category = dropdownValue;
         });
       },
-      items: Utilities.getMenuItems(),
+      items: Utils.getMenuItems(),
     );
   }
 }

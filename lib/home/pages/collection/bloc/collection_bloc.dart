@@ -1,20 +1,13 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:objectbox/src/native/box.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:snaptoo/collections/data_models/CollectionItem.dart';
-import 'package:snaptoo/collections/data_models/ObjectCollectionItem.dart';
-import 'package:snaptoo/helper/Utils.dart';
+import 'package:snaptoo/collections/data_models/collection_item.dart';
+import 'package:snaptoo/helper/utils.dart';
 import 'package:tuple/tuple.dart';
 
-import '../../../../collections/ObjectBox.dart';
-import '../../../../objectbox.g.dart';
-import '../../../../item_details/item_details_view.dart';
+import '../../../../collections/object_box.dart';
 
 part 'collection_event.dart';
 

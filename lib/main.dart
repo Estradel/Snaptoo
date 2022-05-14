@@ -2,7 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'collections/ObjectBox.dart';
+import 'collections/object_box.dart';
 import 'my_app.dart';
 
 // Will be made available throughout the entire app

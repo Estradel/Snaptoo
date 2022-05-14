@@ -1,16 +1,10 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snaptoo/item_details/item_details_view.dart';
 
-import '../../../../collections/ObjectBox.dart';
-import '../../../../collections/data_models/CollectionItem.dart';
-import '../../../../collections/data_models/ObjectCollectionItem.dart';
-import '../../../../helper/Utils.dart';
-import '../../../../objectbox.g.dart';
+import '../../../../collections/object_box.dart';
+import '../../../../helper/utils.dart';
 import '../bloc/collection_bloc.dart';
 
 class CollectionView extends StatelessWidget {

@@ -1,14 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:snaptoo/helper/Utils.dart';
+import 'package:snaptoo/helper/utils.dart';
 import 'package:snaptoo/validation/view/validation_view.dart';
-import 'package:tuple/tuple.dart';
-
-import '../../../../helper/ImageLabeler.dart';
 
 late SharedPreferences prefs;
 

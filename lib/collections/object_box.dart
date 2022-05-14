@@ -1,6 +1,5 @@
 import '../objectbox.g.dart';
-import 'data_models/CollectionItem.dart';
-import 'data_models/ObjectCollectionItem.dart';
+import 'data_models/collection_item.dart';
 
 class ObjectBox {
   /// The Store of this app.
@@ -29,8 +28,6 @@ class ObjectBox {
             .and(CollectionItem_.category.equals(category)))
         .build()
         .find();
-
-    print(item);
 
     return item.isNotEmpty;
   }

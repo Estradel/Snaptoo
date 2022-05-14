@@ -4,13 +4,11 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:snaptoo/collections/data_models/ObjectCollectionItem.dart';
-import 'package:snaptoo/helper/Utils.dart';
+import 'package:snaptoo/helper/utils.dart';
 import 'package:snaptoo/validation/bloc/validation_bloc.dart';
 import 'package:tuple/tuple.dart';
-import '../../collections/ObjectBox.dart';
-import '../../collections/data_models/CollectionItem.dart';
-import '../../main.dart';
+import '../../collections/object_box.dart';
+import '../../collections/data_models/collection_item.dart';
 
 class ValidationView extends StatelessWidget {
   const ValidationView({

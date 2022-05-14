@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'collections/ObjectBox.dart';
+import 'collections/object_box.dart';
 import 'home/view/home_view.dart';
 
 class MyApp extends StatefulWidget {

@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../collections/data_models/CollectionItem.dart';
-import '../helper/Utils.dart';
+import '../collections/data_models/collection_item.dart';
+import '../helper/utils.dart';
 
 class DetailsView extends StatelessWidget {
   const DetailsView({Key? key, required this.collectionItem}) : super(key: key);

@@ -8,10 +8,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tuple/tuple.dart';
 
-import '../../collections/ObjectBox.dart';
-import '../../collections/data_models/CollectionItem.dart';
-import '../../helper/ImageLabeler.dart';
-import '../../helper/Utils.dart';
+import '../../collections/object_box.dart';
+import '../../collections/data_models/collection_item.dart';
+import '../../helper/image_labeler.dart';
+import '../../helper/utils.dart';
 
 part 'validation_event.dart';
 

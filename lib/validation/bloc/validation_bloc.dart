@@ -27,17 +27,21 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
 
   Future<void> _onAnalyzeImage(AnalyzeImage event, Emitter<ValidationState> emit) async {
     // Emit the state that will make the interface wait for resizing + labelling
-    emit(ImageAnalyzing());
+    emit(const ImageAnalyzing(putCircle: false));
+    // NECESSARY for previous State to have time to be emitted
+    await Future.delayed(const Duration(milliseconds: 10));
 
-    await Future.delayed(const Duration(milliseconds: 500), () {});
-
-    // Secondly get the labels of the image (with ML-Kit !)
+    // Firstly get the labels of the image (with ML-Kit !)
     var listLabel = await ImageLabeler.getImageLabels(File(event.pickedFile.path));
-    // Firstly resizes the image (as bytes !)
+    // Emit the state that will make the interface wait for resizing + labelling
+    emit(const ImageAnalyzing(putCircle: true));
+
+    // Secondly resizes the image (as bytes !)
     var bytesResized = await compute(
       Utils().resizeImage,
       Tuple2(await event.pickedFile.readAsBytes(), 800),
     );
+
     // Thirdly we check if a picture with same label+category already exists in DB
     var bestLabel = Utils.findBestMatch(listLabel);
     bool existsAlready = _objectBox.checkExistsAlready(bestLabel.item1, event.category);

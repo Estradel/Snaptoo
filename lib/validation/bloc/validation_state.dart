@@ -10,16 +10,19 @@ abstract class ValidationState extends Equatable {
 class ValidationInitial extends ValidationState {} // default initial state
 
 class ImageAnalyzing extends ValidationState {
+  const ImageAnalyzing({
+    required this.putCircle,
+  });
+
+  final bool putCircle;
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [putCircle];
 }
 
 class ImageAnalyzed extends ValidationState {
-  const ImageAnalyzed({
-    required this.bytesResized,
-    required this.listLabel,
-    required this.existsAlready
-  });
+  const ImageAnalyzed(
+      {required this.bytesResized, required this.listLabel, required this.existsAlready});
 
   final Uint8List bytesResized;
   final List<Tuple2<String, double>> listLabel;

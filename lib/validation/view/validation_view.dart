@@ -103,7 +103,7 @@ class _ValidationView extends StatelessWidget {
               ),
             );
           } else if (state is ImageAnalyzing) {
-            return Utils.simpleLoadingMessage("Beep boop, please wait !");
+            return Utils.simpleLoadingMessage("Beep boop, please wait !", state.putCircle);
           } else {
             return Utils.simpleMessageCentered("Something went wrong. Please reload the app.");
           }

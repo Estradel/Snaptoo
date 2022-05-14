@@ -57,11 +57,12 @@ class Utils {
     ];
   }
 
-  static Center simpleLoadingMessage(String text) {
+  static Center simpleLoadingMessage(String text, bool putCircle) {
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          const SizedBox(height: 160),
           const Icon(
             Icons.smart_toy,
             color: Colors.blue,
@@ -72,9 +73,10 @@ class Utils {
             text,
             style: const TextStyle(fontSize: 32),
           ),
-          const SizedBox(height: 40),
-          const CircularProgressIndicator(color: Colors.lightBlueAccent),
-          const SizedBox(height: 120),
+          if (putCircle) ...[
+            const SizedBox(height: 40),
+            const CircularProgressIndicator(color: Colors.lightBlueAccent),
+          ],
         ],
       ),
     );

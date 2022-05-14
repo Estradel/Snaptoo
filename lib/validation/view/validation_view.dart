@@ -150,22 +150,14 @@ class _ValidationView extends StatelessWidget {
           String appDocPath = (await getApplicationDocumentsDirectory()).path;
           File image = await File('$appDocPath/${category}_$itemName.png').writeAsBytes(bytes);
 
-          print(image.path);
-
-          // À changer à un moment donné
-          //--------------------------------------------------------------
-          final objectBox = context.read<ObjectBox>();
-
-          objectBox.addCollectionItem(
-            CollectionItem(
-              labelName: itemName,
-              category: category,
-              score: itemScore,
-              imagePath: '$appDocPath/${category}_$itemName.png',
-            ),
-          );
-
-          //--------------------------------------------------------------
+          context.read<ValidationBloc>().add(SaveItem(
+                CollectionItem(
+                  labelName: itemName,
+                  category: category,
+                  score: itemScore,
+                  imagePath: '$appDocPath/${category}_$itemName.png',
+                ),
+              ));
 
           Navigator.pop(context);
         },

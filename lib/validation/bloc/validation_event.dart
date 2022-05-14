@@ -9,6 +9,15 @@ abstract class ValidationEvent extends Equatable {
 
 class InitValidation extends ValidationEvent {} // default initial state
 
+class SaveItem extends ValidationEvent {
+  const SaveItem(this.collectionItem);
+
+  final CollectionItem collectionItem;
+
+  @override
+  List<Object> get props => [collectionItem];
+}
+
 class AnalyzeImage extends ValidationEvent {
   const AnalyzeImage(this.pickedFile, this.category);
 

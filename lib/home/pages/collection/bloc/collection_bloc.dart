@@ -14,7 +14,7 @@ import 'package:tuple/tuple.dart';
 
 import '../../../../collections/ObjectBox.dart';
 import '../../../../objectbox.g.dart';
-import '../../../../views/image_view.dart';
+import '../../../../views/details_view.dart';
 
 part 'collection_event.dart';
 
@@ -38,7 +38,7 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
   }
 
   void _onSetCategory(SetCategory event, Emitter<CollectionState> emit) {
-    _prefs.setString("Collection_Category", event.category);
+    _prefs.setString("Current_Category", event.category);
     add(const LoadCollection());
   }
 
@@ -46,7 +46,7 @@ class CollectionBloc extends Bloc<CollectionEvent, CollectionState> {
     // We emit the CollectionLoading state before getting the datas
     emit(CollectionLoading());
 
-    final category = _prefs.getString("Collection_Category") ?? Utils.DEFAULT_CATEGORY;
+    final category = _prefs.getString("Current_Category") ?? Utils.DEFAULT_CATEGORY;
 
     // We retrieve all the datas in ObjectBox + files on the phone
     var filesAndItems = _objectBox

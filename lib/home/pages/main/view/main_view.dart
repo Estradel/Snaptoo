@@ -81,7 +81,7 @@ class _MainViewState extends State<MainView> {
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => ValidationView(
-            category: prefs.getString('Main_Category') ?? Utils.DEFAULT_CATEGORY,
+            category: prefs.getString('Current_Category') ?? Utils.DEFAULT_CATEGORY,
             pickedFile: pickedFile,
           ),
         ),
@@ -101,7 +101,7 @@ class MyDropBoxWidget extends StatefulWidget {
 }
 
 class _MyDropBoxWidgetState extends State<MyDropBoxWidget> {
-  String dropdownValue = prefs.getString('Main_Category') ?? Utils.DEFAULT_CATEGORY;
+  String dropdownValue = prefs.getString('Current_Category') ?? Utils.DEFAULT_CATEGORY;
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +117,7 @@ class _MyDropBoxWidgetState extends State<MyDropBoxWidget> {
       onChanged: (String? newValue) {
         setState(() {
           dropdownValue = newValue!;
-          prefs.setString('Main_Category', dropdownValue);
+          prefs.setString('Current_Category', dropdownValue);
         });
       },
       items: Utils.getMenuItems(),

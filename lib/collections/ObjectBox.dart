@@ -35,7 +35,7 @@ class ObjectBox {
     return item.isNotEmpty;
   }
 
-  List<CollectionItem> getAlreadyExistingItem(CollectionItem collectionItem) {
+  List<CollectionItem> doesItemAlreadyExists(CollectionItem collectionItem) {
     return store
         .box<CollectionItem>()
         .query(CollectionItem_.labelName
@@ -46,7 +46,7 @@ class ObjectBox {
   }
 
   void addCollectionItem(CollectionItem collectionItem) {
-    var item = getAlreadyExistingItem(collectionItem);
+    var item = doesItemAlreadyExists(collectionItem);
     if (item.isEmpty) {
       store.box<CollectionItem>().put(collectionItem);
     } else {

@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../collections/ObjectBox.dart';
+import '../../collections/data_models/CollectionItem.dart';
 import '../../helper/ImageLabeler.dart';
 import '../../helper/Utils.dart';
 
@@ -20,10 +21,15 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
   ValidationBloc({required ObjectBox objectBox})
       : _objectBox = objectBox,
         super(ValidationInitial()) {
+    on<SaveItem>(_onSaveItem);
     on<AnalyzeImage>(_onAnalyzeImage);
   }
 
   final ObjectBox _objectBox;
+
+  void _onSaveItem(SaveItem event, Emitter<ValidationState> emit) {
+    _objectBox.addCollectionItem(event.collectionItem);
+  }
 
   Future<void> _onAnalyzeImage(AnalyzeImage event, Emitter<ValidationState> emit) async {
     // Emit the state that will make the interface wait for resizing + labelling

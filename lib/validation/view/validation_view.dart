@@ -101,9 +101,10 @@ class _ValidationView extends StatelessWidget {
               ),
             );
           } else if (state is ImageAnalyzing) {
-            return Utils.simpleLoadingMessage("Calcul en cours !", state.putCircle);
+            return Utils.simpleLoadingMessage(state.message, state.putCircle);
           } else {
-            return Utils.simpleMessageCentered("Something went wrong. Please reload the app.");
+            return Utils.simpleMessageCentered(
+                "Il y a eu un problème.\nVeuillez redémarrer l'application.");
           }
         },
       ),

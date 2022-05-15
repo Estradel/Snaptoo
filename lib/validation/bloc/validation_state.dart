@@ -10,14 +10,13 @@ abstract class ValidationState extends Equatable {
 class ValidationInitial extends ValidationState {} // default initial state
 
 class ImageAnalyzing extends ValidationState {
-  const ImageAnalyzing({
-    required this.putCircle,
-  });
+  const ImageAnalyzing({required this.message, required this.putCircle});
 
+  final String message;
   final bool putCircle;
 
   @override
-  List<Object> get props => [putCircle];
+  List<Object> get props => [message, putCircle];
 }
 
 class ImageAnalyzed extends ValidationState {

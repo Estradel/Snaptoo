@@ -48,6 +48,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   shared_preferences: ^2.0.13
   isolate_handler: ^1.0.1
+  flutter_image_compress: ^1.1.0
 
 dev_dependencies:
   flutter_test:

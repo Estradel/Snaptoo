@@ -72,7 +72,7 @@ class _MainViewState extends State<MainView> {
   }
 
   void _getImage(ImageSource source) async {
-    final pickedFile = await _imagePicker?.pickImage(source: source, imageQuality: 85);
+    final pickedFile = await _imagePicker?.pickImage(source: source);
     if (pickedFile != null) {
       Navigator.of(context).push(
         MaterialPageRoute(

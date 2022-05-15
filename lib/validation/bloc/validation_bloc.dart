@@ -35,25 +35,22 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
   }
 
   Future<void> _onAnalyzeImage(AnalyzeImage event, Emitter<ValidationState> emit) async {
-    // Emit the state that will make the interface wait for resizing + labelling
-    emit(const ImageAnalyzing(putCircle: false));
-    // NECESSARY for previous State to have time to be emitted
-    await Future.delayed(const Duration(milliseconds: 250));
+    // Emit the state that will make the interface wait for labelling + resizing
+    emit(const ImageAnalyzing(message: "L'image est en cours d'analyse !", putCircle: false));
+    // Just so the previously emitted state has the time to change the UI
+    await Future.delayed(const Duration(milliseconds: 500));
 
     // Firstly get the labels of the image (with ML-Kit !)
     var listLabel = await ImageLabeler.getImageLabels(File(event.pickedFile.path));
-    // Emit the state that will make the interface wait for resizing + labelling
-    emit(const ImageAnalyzing(putCircle: true));
+
+    emit(const ImageAnalyzing(message: "Encore un tout petit peu !", putCircle: true));
 
     // Secondly resizes the image (as bytes !)
-    // var bytesResized = await compute(
-    //   Utils().resizeImage,
-    //   Tuple2(await event.pickedFile.readAsBytes(), 800),
-    // );
-
-    emit(const ImageAnalyzing(putCircle: false));
-
-    print("yo ???");
+    var bytesResized = await Utils.testCompressBytes(
+      bytes: await event.pickedFile.readAsBytes(),
+      minHeight: 800,
+      quality: 80,
+    );
 
     // Thirdly we check if a picture with same label+category already exists in DB
     var bestLabel = Utils.findBestMatch(listLabel);
@@ -61,7 +58,7 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
 
     // Emit the state that display resized image + labels and image info now that they're ready
     emit(ImageAnalyzed(
-      bytesResized: await event.pickedFile.readAsBytes(),
+      bytesResized: bytesResized,
       listLabel: listLabel,
       existsAlready: existsAlready,
     ));

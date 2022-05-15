@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image/image.dart' as img;
 import 'package:tuple/tuple.dart';
 
@@ -28,14 +29,6 @@ class Utils {
   |*							                Methods 			                     	*|
   \*------------------------------------------------------------------*/
 
-  // Is not static because it is used in the 'compute' function, which allows to perform
-  // this CPU intensive task in its own isolate without blocking the UI.
-  Future<Uint8List> resizeImage(Tuple2<Uint8List, int> bytesAndHeight) async {
-    img.Image? image = img.decodeImage(bytesAndHeight.item1);
-    img.Image resized = img.copyResize(image!, height: bytesAndHeight.item2);
-    return img.encodeJpg(resized) as Uint8List;
-  }
-
   /*------------------------------*\
   |*		        Static		      	*|
   \*------------------------------*/
@@ -50,6 +43,21 @@ class Utils {
   static TValue? customCase<TOptionType, TValue>(
       TOptionType selectedOption, Map<TOptionType, TValue> branches) {
     return branches[selectedOption];
+  }
+
+  // Image related
+
+  static Future<Uint8List> testCompressBytes({
+    required Uint8List bytes,
+    required int minHeight,
+    required int quality,
+  }) async {
+    var result = await FlutterImageCompress.compressWithList(
+      bytes,
+      minHeight: minHeight,
+      quality: quality,
+    );
+    return result;
   }
 
   // File related
@@ -101,6 +109,7 @@ class Utils {
           Text(
             text,
             style: const TextStyle(fontSize: 30),
+            textAlign: TextAlign.center,
           ),
           if (putCircle) ...[
             const SizedBox(height: 20),

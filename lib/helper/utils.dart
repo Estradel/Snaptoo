@@ -15,13 +15,23 @@ class Utils {
   |*		        Static		      	*|
   \*------------------------------*/
 
-  // Define the category selected by default (and then it's saved in the shared preferences)
-  static const String DEFAULT_CATEGORY = "Objects";
+  // Define the category selected by default (and then it is saved in the shared preferences)
+  static const String DEFAULT_CATEGORY = "General";
 
   // Must be changed whenever a new category of ML-Kit model is added
   static const Map<String, String> CATEGORIES = {
-    "Objects": "Objets",
+    "General": "Lieux, animaux, objets, ...",
     "Food": "Nourriture",
+    "Mushrooms": "Champignons",
+    "LandmarkEurope": "Monuments européens",
+  };
+
+  // Must be changed whenever a new category of ML-Kit model is added
+  static const Map<String, String> MODEL_PER_CATEGORY = {
+    "General": "assets/ml/lite-model_objects_V1_1.tflite",
+    "Food": "assets/ml/lite-model_food_V1_1.tflite",
+    "Mushrooms": "assets/ml/lite-model_mushrooms_V1_1.tflite",
+    "LandmarkEurope": "assets/ml/lite-model_landmarks_europe_V1_1.tflite",
   };
 
   /*------------------------------------------------------------------*\
@@ -84,7 +94,7 @@ class Utils {
     ];
   }
 
-  static Center simpleLoadingMessage(String text, bool putCircle) {
+  static Center simpleLoadingMessage({required String message, required bool putCircle}) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -106,8 +116,11 @@ class Utils {
           ),
           const SizedBox(height: 85),
           Text(
-            text,
-            style: const TextStyle(fontSize: 30),
+            message,
+            style: TextStyle(
+              fontSize: 30,
+              color: Colors.black.withOpacity(0.25),
+            ),
             textAlign: TextAlign.center,
           ),
           if (putCircle) ...[
@@ -123,15 +136,52 @@ class Utils {
     );
   }
 
-  static Center simpleMessageCentered(String text) {
+  static Center simpleIconMessageBackButton({
+    required String message,
+    required IconData iconData,
+    required bool hasBackButton,
+    BuildContext? context,
+  }) {
     return Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text(
-            text,
-            style: const TextStyle(fontSize: 32),
+          const SizedBox(height: 120),
+          Icon(
+            iconData,
+            size: 160,
+            color: Colors.black.withOpacity(0.25),
           ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            child: Text(
+              message,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black.withOpacity(0.25),
+              ),
+            ),
+          ),
+          const SizedBox(height: 65),
+          if (hasBackButton)
+            Container(
+              height: 50.0,
+              width: 50.0,
+              child: FloatingActionButton(
+                heroTag: "btn_delete",
+                backgroundColor: Colors.blue,
+                child: const Icon(
+                  Icons.arrow_back,
+                  size: 30,
+                ),
+                onPressed: () {
+                  Navigator.pop(context!);
+                },
+              ),
+            ),
         ],
       ),
     );

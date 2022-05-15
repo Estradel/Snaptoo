@@ -46,7 +46,7 @@ class _ValidationView extends StatelessWidget {
       body: BlocBuilder<ValidationBloc, ValidationState>(
         // all is re-built whenever the state changes
         builder: (context, state) {
-          if (state is ImageAnalyzed) {
+          if (state is ImageLabelFound) {
             Tuple2<String, double> bestMatch = Utils.findBestMatch(state.listLabel);
             return Scaffold(
               body: Center(
@@ -99,11 +99,21 @@ class _ValidationView extends StatelessWidget {
                 ),
               ),
             );
-          } else if (state is ImageAnalyzing) {
-            return Utils.simpleLoadingMessage(state.message, state.putCircle);
+          } else if (state is ImageLabelSearching) {
+            return Utils.simpleLoadingMessage(message: state.message, putCircle: state.putCircle);
+          } else if (state is ImageLabelNone) {
+            return Utils.simpleIconMessageBackButton(
+                message:
+                    "L'analyse a échouée. Cela peut être en raison de la qualité de la photo.\n\nEssayer à nouveau !",
+                iconData: Icons.help_outline,
+                hasBackButton: true,
+                context: context);
           } else {
-            return Utils.simpleMessageCentered(
-                "Il y a eu un problème.\nVeuillez redémarrer l'application.");
+            return Utils.simpleIconMessageBackButton(
+              message: "Il y a eu un problème.\nVeuillez redémarrer l'application.",
+              iconData: Icons.bug_report,
+              hasBackButton: false,
+            );
           }
         },
       ),
@@ -114,18 +124,20 @@ class _ValidationView extends StatelessWidget {
       BuildContext context, Tuple2<String, double> bestMatch, bool existAlready) {
     var color = existAlready ? Colors.red : Colors.blue;
     return Container(
-        height: 50.0,
-        width: 50.0,
-        child: FloatingActionButton(
-            heroTag: "btn_delete",
-            backgroundColor: color,
-            child: const Icon(
-              Icons.close,
-              size: 30,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            }));
+      height: 50.0,
+      width: 50.0,
+      child: FloatingActionButton(
+        heroTag: "btn_delete",
+        backgroundColor: color,
+        child: const Icon(
+          Icons.close,
+          size: 30,
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+    );
   }
 
   Widget _floatingActionButtonAdd(BuildContext context, Tuple2<String, double> bestMatch,

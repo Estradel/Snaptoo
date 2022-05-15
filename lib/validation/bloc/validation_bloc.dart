@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../collections/object_box.dart';
@@ -35,31 +36,41 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
 
   Future<void> _onAnalyzeImage(AnalyzeImage event, Emitter<ValidationState> emit) async {
     // Emit the state that will make the interface wait for labelling + resizing
-    emit(const ImageAnalyzing(message: "L'image est en cours d'analyse !", putCircle: false));
+    emit(const ImageLabelSearching(message: "L'image est en cours d'analyse !", putCircle: false));
+
     // Just so the previously emitted state has the time to change the UI
     await Future.delayed(const Duration(milliseconds: 500));
 
     // Firstly get the labels of the image (with ML-Kit !)
-    var listLabel = await ImageLabeler.getImageLabels(File(event.pickedFile.path));
-
-    emit(const ImageAnalyzing(message: "Encore un tout petit peu !", putCircle: true));
-
-    // Secondly resizes the image (as bytes !)
-    var bytesResized = await Utils.testCompressBytes(
-      bytes: await event.pickedFile.readAsBytes(),
-      minHeight: 800,
-      quality: 80,
+    var listLabel = await MyImageLabeler.getImageLabels(
+      file: File(event.pickedFile.path),
+      category: event.category,
     );
 
-    // Thirdly we check if a picture with same label+category already exists in DB
-    var bestLabel = Utils.findBestMatch(listLabel);
-    bool existsAlready = _objectBox.checkExistsAlready(bestLabel.item1, event.category);
+    if (listLabel.isNotEmpty) {
+      // Emit the state which informs user it's almost there
+      emit(const ImageLabelSearching(message: "Encore un tout petit peu !", putCircle: true));
 
-    // Emit the state that display resized image + labels and image info now that they're ready
-    emit(ImageAnalyzed(
-      bytesResized: bytesResized,
-      listLabel: listLabel,
-      existsAlready: existsAlready,
-    ));
+      // Secondly resizes the image (as bytes !)
+      var bytesResized = await Utils.testCompressBytes(
+        bytes: await event.pickedFile.readAsBytes(),
+        minHeight: 800,
+        quality: 80,
+      );
+
+      // Thirdly we check if a picture with same label+category already exists in DB
+      var bestLabel = Utils.findBestMatch(listLabel);
+      bool existsAlready = _objectBox.checkExistsAlready(bestLabel.item1, event.category);
+
+      // Emit the state that display resized image + labels and image info now that they're ready
+      emit(ImageLabelFound(
+        bytesResized: bytesResized,
+        listLabel: listLabel,
+        existsAlready: existsAlready,
+      ));
+    } else {
+      // Emit the state which informs the user that
+      emit(const ImageLabelNone());
+    }
   }
 }

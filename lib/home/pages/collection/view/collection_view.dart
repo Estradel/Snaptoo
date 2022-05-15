@@ -113,8 +113,11 @@ class _CollectionView extends StatelessWidget {
                       );
                     }
                   } else {
-                    return Utils.simpleMessageCentered(
-                        "Il y a eu un problème.\nVeuillez redémarrer l'application.");
+                    return Utils.simpleIconMessageBackButton(
+                      message: "Il y a eu un problème.\nVeuillez redémarrer l'application.",
+                      iconData: Icons.bug_report,
+                      hasBackButton: false,
+                    );
                   }
                 },
               )

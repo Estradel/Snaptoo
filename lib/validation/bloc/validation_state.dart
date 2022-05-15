@@ -9,8 +9,8 @@ abstract class ValidationState extends Equatable {
 
 class ValidationInitial extends ValidationState {} // default initial state
 
-class ImageAnalyzing extends ValidationState {
-  const ImageAnalyzing({required this.message, required this.putCircle});
+class ImageLabelSearching extends ValidationState {
+  const ImageLabelSearching({required this.message, required this.putCircle});
 
   final String message;
   final bool putCircle;
@@ -19,8 +19,12 @@ class ImageAnalyzing extends ValidationState {
   List<Object> get props => [message, putCircle];
 }
 
-class ImageAnalyzed extends ValidationState {
-  const ImageAnalyzed(
+class ImageLabelNone extends ValidationState {
+  const ImageLabelNone();
+}
+
+class ImageLabelFound extends ValidationState {
+  const ImageLabelFound(
       {required this.bytesResized, required this.listLabel, required this.existsAlready});
 
   final Uint8List bytesResized;

@@ -3,8 +3,6 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:snaptoo/collections/data_models/collection_item.dart';
-
 import '../../collections/object_box.dart';
 import '../../helper/utils.dart';
 

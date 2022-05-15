@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:snaptoo/home/pages/collection/bloc/collection_bloc.dart';
 import 'package:snaptoo/item_details/bloc/item_details_bloc.dart';
 
 import '../collections/data_models/collection_item.dart';

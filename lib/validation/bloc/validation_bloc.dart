@@ -46,10 +46,14 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
     emit(const ImageAnalyzing(putCircle: true));
 
     // Secondly resizes the image (as bytes !)
-    var bytesResized = await compute(
-      Utils().resizeImage,
-      Tuple2(await event.pickedFile.readAsBytes(), 800),
-    );
+    // var bytesResized = await compute(
+    //   Utils().resizeImage,
+    //   Tuple2(await event.pickedFile.readAsBytes(), 800),
+    // );
+
+    emit(const ImageAnalyzing(putCircle: false));
+
+    print("yo ???");
 
     // Thirdly we check if a picture with same label+category already exists in DB
     var bestLabel = Utils.findBestMatch(listLabel);
@@ -57,7 +61,7 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
 
     // Emit the state that display resized image + labels and image info now that they're ready
     emit(ImageAnalyzed(
-      bytesResized: bytesResized,
+      bytesResized: await event.pickedFile.readAsBytes(),
       listLabel: listLabel,
       existsAlready: existsAlready,
     ));

@@ -31,7 +31,7 @@ class Utils {
   // Is not static because it is used in the 'compute' function, which allows to perform
   // this CPU intensive task in its own isolate without blocking the UI.
   Future<Uint8List> resizeImage(Tuple2<Uint8List, int> bytesAndHeight) async {
-    img.Image? image = img.decodeImage(bytesAndHeight.item1); // with compute, it doesn't block UI !
+    img.Image? image = img.decodeImage(bytesAndHeight.item1);
     img.Image resized = img.copyResize(image!, height: bytesAndHeight.item2);
     return img.encodeJpg(resized) as Uint8List;
   }

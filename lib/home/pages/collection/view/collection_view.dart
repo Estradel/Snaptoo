@@ -37,18 +37,18 @@ class _CollectionView extends StatelessWidget {
               const Text('Collection', style: TextStyle(fontSize: 48)),
               const SizedBox(height: 2),
               BlocBuilder<CollectionBloc, CollectionState>(
-                  // all is re-built whenever the state changes
+                // all is re-built whenever the state changes
                   builder: (context, state) {
-                if (state is CollectionLoading) {
-                  return const Padding(
-                      padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
-                      child: CircularProgressIndicator(color: Colors.deepPurpleAccent));
-                } else if (state is CollectionLoaded) {
-                  return customDropBoxWidget(context, state);
-                } else {
-                  return const Text("Something went wrong!");
-                }
-              }),
+                    if (state is CollectionLoading) {
+                      return const Padding(
+                          padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
+                          child: CircularProgressIndicator(color: Colors.deepPurpleAccent));
+                    } else if (state is CollectionLoaded) {
+                      return customDropBoxWidget(context, state);
+                    } else {
+                      return const Text("Something went wrong!");
+                    }
+                  }),
               BlocBuilder<CollectionBloc, CollectionState>(
                 // all is re-built whenever the state changes
                 builder: (context, state) {
@@ -83,27 +83,33 @@ class _CollectionView extends StatelessWidget {
                       );
                     } else {
                       return Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                        child: ListView.builder(
+                        padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+                        child: GridView.builder(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: 0.85,
+                              mainAxisSpacing: 15,
+                              crossAxisSpacing: 15,
+                              crossAxisCount:
+                              (MediaQuery.of(context).orientation == Orientation.portrait)
+                                  ? 2
+                                  : 3),
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           itemCount: state.filesAndItems.length,
                           itemBuilder: (BuildContext ctx, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: InkWell(
-                                onTap: () async {
-                                  final value = await Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => DetailsView(
-                                        collectionItem: state.filesAndItems[index].item2),
-                                  ));
-                                  context.read<CollectionBloc>().add(const LoadCollection());
-                                },
-                                child: ClipRRect(
-                                  child: Image.file(
-                                    state.filesAndItems[index].item1,
-                                    height: 225,
-                                  ),
+                            return InkWell(
+                              onTap: () async {
+                                final value = await Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailsView(collectionItem: state.filesAndItems[index].item2),
+                                ));
+                                context.read<CollectionBloc>().add(const LoadCollection());
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0), // Image radius
+                                child: Image.file(
+                                  state.filesAndItems[index].item1,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             );

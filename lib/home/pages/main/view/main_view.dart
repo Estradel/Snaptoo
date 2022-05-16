@@ -35,19 +35,21 @@ class _MainViewState extends State<MainView> {
   Widget build(BuildContext context) {
     prefs = context.read<SharedPreferences>();
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 80),
-            const Text(
-              'Snaptoo',
-              style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 2),
-            const MyDropBoxWidget(),
-            const SizedBox(height: 80),
-            _floatingActionButton(),
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              const SizedBox(height: 80),
+              const Text(
+                'Snaptoo',
+                style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 2),
+              const MyDropBoxWidget(),
+              const SizedBox(height: 80),
+              _floatingActionButton(),
+            ],
+          ),
         ),
       ),
     );

@@ -30,46 +30,47 @@ class _DetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 100),
-            ...Utils.customCard(
-              image: Image.file(File(collectionItem.imagePath!), height: 375),
-              label: collectionItem.labelName,
-              category: collectionItem.category,
-              score: collectionItem.score,
-            ),
-            const SizedBox(height: 40),
-            Padding(
-              padding: const EdgeInsets.only(left: 50, right: 50),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  FloatingActionButton(
-                    heroTag: "back",
-                    child: const Icon(Icons.arrow_back_rounded),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  FloatingActionButton(
-                    heroTag: "delete",
-                    child: const Icon(Icons.delete),
-                    backgroundColor: Colors.red,
-                    onPressed: () {
-                      context.read<ItemDetailsBloc>().add(DeleteItem(
-                            itemId: collectionItem.id,
-                            imagePath: collectionItem.imagePath!,
-                          ));
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              const SizedBox(height: 100),
+              ...Utils.customCard(
+                image: Image.file(File(collectionItem.imagePath!), height: 375),
+                label: collectionItem.labelName,
+                category: collectionItem.category,
+                score: collectionItem.score,
               ),
-            ),
-          ],
+              const SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.only(left: 50, right: 50),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    FloatingActionButton(
+                      heroTag: "back",
+                      child: const Icon(Icons.arrow_back_rounded),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    FloatingActionButton(
+                      heroTag: "delete",
+                      child: const Icon(Icons.delete),
+                      backgroundColor: Colors.red,
+                      onPressed: () {
+                        context.read<ItemDetailsBloc>().add(DeleteItem(
+                              itemId: collectionItem.id,
+                              imagePath: collectionItem.imagePath!,
+                            ));
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

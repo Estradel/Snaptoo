@@ -49,70 +49,80 @@ class _ValidationView extends StatelessWidget {
           if (state is ImageLabelFound) {
             Tuple2<String, double> bestMatch = Utils.findBestMatch(state.listLabel);
             return Scaffold(
-              body: Center(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 100),
-                    ...Utils.customCard(
-                      image: Image(image: MemoryImage(state.bytesResized), height: 300),
-                      label: bestMatch.item1,
-                      category: category,
-                      score: bestMatch.item2,
-                    ),
-                    const SizedBox(height: 25),
-                    state.existsAlready
-                        ? const Text(
-                            'Vous possédez déjà cet objet.\nSouhaitez-vous l\'écraser ?',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+              body: SingleChildScrollView(
+                child: Center(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 100),
+                      ...Utils.customCard(
+                        image: Image(image: MemoryImage(state.bytesResized), height: 300),
+                        label: bestMatch.item1,
+                        category: category,
+                        score: bestMatch.item2,
+                      ),
+                      const SizedBox(height: 25),
+                      state.existsAlready
+                          ? const Text(
+                              'Vous possédez déjà cet objet.\nSouhaitez-vous l\'écraser ?',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          : const Text(
+                              "Souhaitez-vous conserver cet objet ?",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          )
-                        : const Text(
-                            "Souhaitez-vous conserver cet objet ?",
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      const SizedBox(height: 25),
+                      Wrap(
+                        spacing: 50,
+                        children: [
+                          _floatingActionButtonDelete(
+                            context,
+                            bestMatch,
+                            state.existsAlready,
                           ),
-                    const SizedBox(height: 25),
-                    Wrap(
-                      spacing: 50,
-                      children: [
-                        _floatingActionButtonDelete(
-                          context,
-                          bestMatch,
-                          state.existsAlready,
-                        ),
-                        _floatingActionButtonAdd(
-                          context,
-                          bestMatch,
-                          state.bytesResized,
-                          state.existsAlready,
-                        ),
-                      ],
-                    )
-                  ],
+                          _floatingActionButtonAdd(
+                            context,
+                            bestMatch,
+                            state.bytesResized,
+                            state.existsAlready,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             );
           } else if (state is ImageLabelSearching) {
             return Utils.simpleLoadingMessage(message: state.message, putCircle: state.putCircle);
           } else if (state is ImageLabelNone) {
-            return Utils.simpleIconMessageBackButton(
-                message:
-                    "L'analyse a échouée. Cela peut être en raison de la qualité de la photo.\n\nEssayer à nouveau !",
-                iconData: Icons.help_outline,
-                hasBackButton: true,
-                context: context);
+            return Scaffold(
+              body: SingleChildScrollView(
+                child: Utils.simpleIconMessageBackButton(
+                    message:
+                        "L'analyse a échouée. Cela peut être en raison de la qualité de la photo.\n\nEssayer à nouveau !",
+                    iconData: Icons.help_outline,
+                    hasBackButton: true,
+                    context: context),
+              ),
+            );
           } else {
-            return Utils.simpleIconMessageBackButton(
-              message: "Il y a eu un problème.\nVeuillez redémarrer l'application.",
-              iconData: Icons.bug_report,
-              hasBackButton: false,
+            return Scaffold(
+              body: SingleChildScrollView(
+                child: Utils.simpleIconMessageBackButton(
+                  message: "Il y a eu un problème.\nVeuillez redémarrer l'application.",
+                  iconData: Icons.bug_report,
+                  hasBackButton: false,
+                ),
+              ),
             );
           }
         },

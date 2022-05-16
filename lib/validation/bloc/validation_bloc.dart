@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../collections/object_box.dart';

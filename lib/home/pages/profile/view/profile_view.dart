@@ -10,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../collections/data_models/collection_item.dart';
 import '../../../../collections/object_box.dart';
-import '../../../../helper/utils.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);

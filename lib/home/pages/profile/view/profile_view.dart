@@ -8,7 +8,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../collections/data_models/collection_item.dart';
 import '../../../../collections/object_box.dart';
+import '../../../../helper/utils.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -200,22 +202,12 @@ class _ProfileViewState extends State<ProfileView> {
 
   void LoadScore() {
     ObjectBox _objectBox = context.read<ObjectBox>();
-    var list =
-        _objectBox.getCollectionItems().where((item) => (item.category == "Objects")).toList();
 
-    for (int i = 0; i < list.length; i++) {
-      score += list.elementAt(i).score * 100;
-    }
-
-    list = _objectBox.getCollectionItems().where((item) => (item.category == "Food")).toList();
-
-    for (int i = 0; i < list.length; i++) {
-      score += list.elementAt(i).score * 100;
+    for (CollectionItem collectionItem in _objectBox.getCollectionItems()) {
+      score += collectionItem.score * 100;
     }
 
     score = double.parse(score.toStringAsFixed(2));
-
-    //_objectBox.Close();
   }
 
   int CalculateBadge() {

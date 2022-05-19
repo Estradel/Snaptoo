@@ -1,7 +1,9 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:snaptoo/helper/ImageLabelerHelper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'collections/ObjectBox.dart';
+import 'collections/object_box.dart';
 import 'my_app.dart';
 
 // Will be made available throughout the entire app
@@ -14,6 +16,10 @@ Future<void> main() async {
   cameras = await availableCameras();
   /// ObjectBox
   final objectBox = await ObjectBox.create();
+  /// Init Models
+  ImageLabelerHelper().initImageLabelers();
+  /// SharePreferences
+  final prefs = await SharedPreferences.getInstance();
 
-  runApp(MyApp(objectBox: objectBox));
+  runApp(MyApp(objectBox: objectBox, prefs : prefs));
 }

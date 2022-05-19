@@ -13,7 +13,7 @@ import 'package:objectbox/internal.dart'; // generated code can access "internal
 import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
-import 'collections/data_models/CollectionItem.dart';
+import 'collections/data_models/collection_item.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -24,11 +24,7 @@ final _entities = <ModelEntity>[
       lastPropertyId: const IdUid(5, 335724486214129801),
       flags: 0,
       properties: <ModelProperty>[
-        ModelProperty(
-            id: const IdUid(1, 6929915993761183136),
-            name: 'id',
-            type: 6,
-            flags: 1),
+        ModelProperty(id: const IdUid(1, 6929915993761183136), name: 'id', type: 6, flags: 1),
         ModelProperty(
             id: const IdUid(2, 797614560904065804),
             name: 'labelName',
@@ -41,16 +37,8 @@ final _entities = <ModelEntity>[
             type: 9,
             flags: 2048,
             indexId: const IdUid(4, 8812758979872091088)),
-        ModelProperty(
-            id: const IdUid(4, 3776341041189923167),
-            name: 'score',
-            type: 8,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(5, 335724486214129801),
-            name: 'imagePath',
-            type: 9,
-            flags: 0)
+        ModelProperty(id: const IdUid(4, 3776341041189923167), name: 'score', type: 8, flags: 0),
+        ModelProperty(id: const IdUid(5, 335724486214129801), name: 'imagePath', type: 9, flags: 0)
       ],
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
@@ -109,9 +97,8 @@ ModelDefinition getObjectBoxModel() {
         objectToFB: (CollectionItem object, fb.Builder fbb) {
           final labelNameOffset = fbb.writeString(object.labelName);
           final categoryOffset = fbb.writeString(object.category);
-          final imagePathOffset = object.imagePath == null
-              ? null
-              : fbb.writeString(object.imagePath!);
+          final imagePathOffset =
+              object.imagePath == null ? null : fbb.writeString(object.imagePath!);
           fbb.startTable(6);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, labelNameOffset);
@@ -131,8 +118,7 @@ ModelDefinition getObjectBoxModel() {
                   .vTableGet(buffer, rootOffset, 6, ''),
               category: const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 8, ''),
-              score:
-                  const fb.Float64Reader().vTableGet(buffer, rootOffset, 10, 0),
+              score: const fb.Float64Reader().vTableGet(buffer, rootOffset, 10, 0),
               imagePath: const fb.StringReader(asciiOptimization: true)
                   .vTableGetNullable(buffer, rootOffset, 12));
 
@@ -146,22 +132,17 @@ ModelDefinition getObjectBoxModel() {
 /// [CollectionItem] entity fields to define ObjectBox queries.
 class CollectionItem_ {
   /// see [CollectionItem.id]
-  static final id =
-      QueryIntegerProperty<CollectionItem>(_entities[0].properties[0]);
+  static final id = QueryIntegerProperty<CollectionItem>(_entities[0].properties[0]);
 
   /// see [CollectionItem.labelName]
-  static final labelName =
-      QueryStringProperty<CollectionItem>(_entities[0].properties[1]);
+  static final labelName = QueryStringProperty<CollectionItem>(_entities[0].properties[1]);
 
   /// see [CollectionItem.category]
-  static final category =
-      QueryStringProperty<CollectionItem>(_entities[0].properties[2]);
+  static final category = QueryStringProperty<CollectionItem>(_entities[0].properties[2]);
 
   /// see [CollectionItem.score]
-  static final score =
-      QueryDoubleProperty<CollectionItem>(_entities[0].properties[3]);
+  static final score = QueryDoubleProperty<CollectionItem>(_entities[0].properties[3]);
 
   /// see [CollectionItem.imagePath]
-  static final imagePath =
-      QueryStringProperty<CollectionItem>(_entities[0].properties[4]);
+  static final imagePath = QueryStringProperty<CollectionItem>(_entities[0].properties[4]);
 }

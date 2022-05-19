@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../helper/Utilities.dart';
+import '../../helper/utils.dart';
 import '../cubit/home_cubit.dart';
 import '../pages/collection/view/collection_view.dart';
 import '../pages/main/view/main_view.dart';
@@ -26,8 +26,8 @@ class _HomeView extends StatelessWidget {
     // if selectedTab changes this whole widget will be rebuilt !
     final selectedTab = context.select((HomeCubit cubit) => cubit.state.currentTab);
     return Scaffold(
-      body: Utilities.customCase(selectedTab, {
-        HomeTab.collection: CollectionView(),
+      body: Utils.customCase(selectedTab, {
+        HomeTab.collection: const CollectionView(),
         HomeTab.main: const MainView(),
         HomeTab.profile: const ProfileView(),
       }),

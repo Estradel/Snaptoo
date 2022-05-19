@@ -1,20 +1,15 @@
-import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:objectbox/internal.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:snaptoo/views/image_view.dart';
 
-import '../../../../collections/ObjectBox.dart';
-import '../../../../objectbox.g.dart';
-import '../../collection/bloc/collection_bloc.dart';
+import '../../../../collections/data_models/collection_item.dart';
+import '../../../../collections/object_box.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -23,8 +18,7 @@ class ProfileView extends StatefulWidget {
   State<ProfileView> createState() => _ProfileViewState();
 }
 
-class _ProfileViewState extends State<ProfileView>{
-
+class _ProfileViewState extends State<ProfileView> {
   String? pseudo;
   String? imageprofile;
   double score = 0.0;
@@ -73,20 +67,21 @@ class _ProfileViewState extends State<ProfileView>{
           child: Center(
             child: Column(
               children: [
-                SizedBox(height: 100),
-                Text(
+                const SizedBox(height: 80),
+                const Text(
                   'Profile',
                   style: TextStyle(fontSize: 48),
                 ),
-                SizedBox(height: 20),
-                if(loading) ...[
-                  CircularProgressIndicator(),
-                ]
-                else ...[
+                const SizedBox(height: 20),
+                if (loading) ...[
+                  const CircularProgressIndicator(),
+                ] else ...[
                   InkWell(
-                    onTap: () async{
-                      if(modify == true){
-                        pickedFile = await _imagePicker?.pickImage(source: ImageSource.gallery,);
+                    onTap: () async {
+                      if (modify == true) {
+                        pickedFile = await _imagePicker?.pickImage(
+                          source: ImageSource.gallery,
+                        );
                         _image = File(pickedFile!.path);
                         final random = Random().nextInt(1000);
                         Directory appDocDir = await getApplicationDocumentsDirectory();
@@ -106,11 +101,11 @@ class _ProfileViewState extends State<ProfileView>{
                     ),
                   ),
                 ],
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Container(
                   width: 250,
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Pseudo",
                     ),
@@ -119,11 +114,11 @@ class _ProfileViewState extends State<ProfileView>{
                     controller: pseudocontroller,
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Container(
                   width: 250,
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Score",
                     ),
@@ -132,14 +127,14 @@ class _ProfileViewState extends State<ProfileView>{
                     initialValue: score.toString(),
                   ),
                 ),
-                SizedBox(height: 20),
-                Text("Badges :"),
-                SizedBox(height: 10),
+                const SizedBox(height: 20),
+                const Text("Badges :"),
+                const SizedBox(height: 10),
                 Container(
                   height: 40,
                   child: Row(
                     children: [
-                      SizedBox(width: 15),
+                      const SizedBox(width: 15),
                       ListView.builder(
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
@@ -160,15 +155,14 @@ class _ProfileViewState extends State<ProfileView>{
         floatingActionButton: FloatingActionButton(
           child: Icon(iconbutton),
           onPressed: () {
-              modify = !modify;
-              if(modify == true) {
-                iconbutton = Icons.done;
-              }
-              else {
-                iconbutton = Icons.edit;
-                WriteSharedPrefs();
-              }
-              setState(() {});
+            modify = !modify;
+            if (modify == true) {
+              iconbutton = Icons.done;
+            } else {
+              iconbutton = Icons.edit;
+              WriteSharedPrefs();
+            }
+            setState(() {});
           },
         ));
   }
@@ -194,7 +188,6 @@ class _ProfileViewState extends State<ProfileView>{
     setState(() {});
 
     loading = false;
-
   }
 
   WriteSharedPrefs() async {
@@ -208,22 +201,12 @@ class _ProfileViewState extends State<ProfileView>{
 
   void LoadScore() {
     ObjectBox _objectBox = context.read<ObjectBox>();
-    var list =
-        _objectBox.getCollectionItems().where((item) => (item.category == "Objects")).toList();
 
-    for (int i = 0; i < list.length; i++) {
-      score += list.elementAt(i).score * 100;
-    }
-
-    list = _objectBox.getCollectionItems().where((item) => (item.category == "Food")).toList();
-
-    for (int i = 0; i < list.length; i++) {
-      score += list.elementAt(i).score * 100;
+    for (CollectionItem collectionItem in _objectBox.getCollectionItems()) {
+      score += collectionItem.score * 100;
     }
 
     score = double.parse(score.toStringAsFixed(2));
-
-    //_objectBox.Close();
   }
 
   int CalculateBadge() {

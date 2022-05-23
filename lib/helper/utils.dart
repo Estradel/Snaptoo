@@ -26,7 +26,7 @@ class Utils {
     "LandmarkEurope": "Monuments européens",
     "Birds": "Oiseaux",
     "Insects": "Insectes",
-    "Wines" : "Vins populaires",
+    "Wines": "Vins populaires",
   };
 
   // Must be changed whenever a new category of ML-Kit model is added
@@ -37,7 +37,7 @@ class Utils {
     "LandmarkEurope": "assets/ml/lite-model_landmarks_europe_V1_1.tflite",
     "Birds": "assets/ml/birds_V1_3.tflite",
     "Insects": "assets/ml/insects_V1_3.tflite",
-    "Wines" : "assets/ml/popular_wine_V1_1.tflite",
+    "Wines": "assets/ml/popular_wine_V1_1.tflite",
   };
 
   /*------------------------------------------------------------------*\
@@ -48,7 +48,7 @@ class Utils {
   |*		        Static		      	*|
   \*------------------------------*/
 
-  // Just useful
+  // Just useful Tools
 
   static Tuple2<String, double> findBestMatch(List<Tuple2<String, double>> labels) {
     final best = labels.reduce((a, b) => a.item2 > b.item2 ? a : b);
@@ -60,7 +60,7 @@ class Utils {
     return branches[selectedOption];
   }
 
-  // Image related
+  // Image related Tools
 
   static Future<Uint8List> testCompressBytes({
     required Uint8List bytes,
@@ -75,7 +75,7 @@ class Utils {
     return result;
   }
 
-  // File related
+  // File related Tools
 
   static Future<void> saveFile(String path, Uint8List bytesResized) async {
     await File(path).writeAsBytes(bytesResized);
@@ -91,7 +91,7 @@ class Utils {
     }
   }
 
-  // UI related
+  // UI related Tools
 
   static List<DropdownMenuItem<String>> getMenuItems() {
     return [

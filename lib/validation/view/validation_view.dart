@@ -102,7 +102,12 @@ class _ValidationView extends StatelessWidget {
               ),
             );
           } else if (state is ImageLabelSearching) {
-            return Utils.simpleLoadingMessage(message: state.message, putCircle: state.putCircle);
+            return Scaffold(
+              body: SingleChildScrollView(
+                child:
+                    Utils.simpleLoadingMessage(message: state.message, putCircle: state.putCircle),
+              ),
+            );
           } else if (state is ImageLabelNone) {
             return Scaffold(
               body: SingleChildScrollView(

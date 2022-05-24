@@ -5,7 +5,7 @@ import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
 import 'package:camera/camera.dart';
 import 'package:equatable/equatable.dart';
-import 'package:snaptoo/helper/ImageLabelerHelper.dart';
+import 'package:snaptoo/helper/image_labeler_helper.dart';
 import 'package:tuple/tuple.dart';
 
 import '../../collections/object_box.dart';
@@ -41,7 +41,6 @@ class ValidationBloc extends Bloc<ValidationEvent, ValidationState> {
     await Future.delayed(const Duration(milliseconds: 500));
 
     // Firstly get the labels of the image (with ML-Kit !)
-    // var listLabel = await MyImageLabeler.getImageLabels(
     var listLabel = await ImageLabelerHelper().getImageLabels(
       file: File(event.pickedFile.path),
       category: event.category,

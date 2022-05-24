@@ -1,6 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:snaptoo/helper/ImageLabelerHelper.dart';
+import 'package:snaptoo/helper/image_labeler_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'collections/object_box.dart';
@@ -14,12 +14,15 @@ Future<void> main() async {
 
   /// Cameras
   cameras = await availableCameras();
+
   /// ObjectBox
   final objectBox = await ObjectBox.create();
+
   /// Init Models
   ImageLabelerHelper().initImageLabelers();
+
   /// SharePreferences
   final prefs = await SharedPreferences.getInstance();
 
-  runApp(MyApp(objectBox: objectBox, prefs : prefs));
+  runApp(MyApp(objectBox: objectBox, prefs: prefs));
 }

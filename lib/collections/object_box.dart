@@ -24,8 +24,8 @@ class ObjectBox {
     List<CollectionItem> item = store
         .box<CollectionItem>()
         .query(CollectionItem_.labelName
-        .equals(labelName)
-        .and(CollectionItem_.category.equals(category)))
+            .equals(labelName)
+            .and(CollectionItem_.category.equals(category)))
         .build()
         .find();
 
@@ -36,8 +36,8 @@ class ObjectBox {
     return store
         .box<CollectionItem>()
         .query(CollectionItem_.labelName
-        .equals(collectionItem.labelName)
-        .and(CollectionItem_.category.equals(collectionItem.category)))
+            .equals(collectionItem.labelName)
+            .and(CollectionItem_.category.equals(collectionItem.category)))
         .build()
         .find();
   }

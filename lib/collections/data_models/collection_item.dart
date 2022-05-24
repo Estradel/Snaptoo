@@ -15,7 +15,12 @@ class CollectionItem {
 
   String? imagePath;
 
-  CollectionItem({this.id = 0, required this.labelName, required this.category, required this.score, this.imagePath});
+  CollectionItem(
+      {this.id = 0,
+      required this.labelName,
+      required this.category,
+      required this.score,
+      this.imagePath});
 
   @override
   String toString() {

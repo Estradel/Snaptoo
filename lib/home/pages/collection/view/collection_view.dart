@@ -37,18 +37,18 @@ class _CollectionView extends StatelessWidget {
               const Text('Collection', style: TextStyle(fontSize: 48)),
               const SizedBox(height: 2),
               BlocBuilder<CollectionBloc, CollectionState>(
-                // all is re-built whenever the state changes
+                  // all is re-built whenever the state changes
                   builder: (context, state) {
-                    if (state is CollectionLoading) {
-                      return const Padding(
-                          padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
-                          child: CircularProgressIndicator(color: Colors.deepPurpleAccent));
-                    } else if (state is CollectionLoaded) {
-                      return customDropBoxWidget(context, state);
-                    } else {
-                      return const Text("Something went wrong!");
-                    }
-                  }),
+                if (state is CollectionLoading) {
+                  return const Padding(
+                      padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
+                      child: CircularProgressIndicator(color: Colors.deepPurpleAccent));
+                } else if (state is CollectionLoaded) {
+                  return customDropBoxWidget(context, state);
+                } else {
+                  return const Text("Something went wrong!");
+                }
+              }),
               BlocBuilder<CollectionBloc, CollectionState>(
                 // all is re-built whenever the state changes
                 builder: (context, state) {
@@ -90,9 +90,9 @@ class _CollectionView extends StatelessWidget {
                               mainAxisSpacing: 15,
                               crossAxisSpacing: 15,
                               crossAxisCount:
-                              (MediaQuery.of(context).orientation == Orientation.portrait)
-                                  ? 2
-                                  : 3),
+                                  (MediaQuery.of(context).orientation == Orientation.portrait)
+                                      ? 2
+                                      : 3),
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
                           itemCount: state.filesAndItems.length,

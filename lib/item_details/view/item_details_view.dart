@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:snaptoo/item_details/bloc/item_details_bloc.dart';
 
-import '../collections/data_models/collection_item.dart';
-import '../collections/object_box.dart';
-import '../helper/utils.dart';
+import '../../collections/data_models/collection_item.dart';
+import '../../collections/object_box.dart';
+import '../../helper/utils.dart';
 
-class DetailsView extends StatelessWidget {
-  const DetailsView({Key? key, required this.collectionItem}) : super(key: key);
+class ItemDetailsView extends StatelessWidget {
+  const ItemDetailsView({Key? key, required this.collectionItem}) : super(key: key);
 
   final CollectionItem collectionItem;
 

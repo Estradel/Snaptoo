@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:snaptoo/item_details/item_details_view.dart';
+import 'package:snaptoo/item_details/view/item_details_view.dart';
 
 import '../../../../collections/object_box.dart';
 import '../../../../helper/utils.dart';
@@ -101,7 +101,7 @@ class _CollectionView extends StatelessWidget {
                               onTap: () async {
                                 final value = await Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) =>
-                                      DetailsView(collectionItem: state.filesAndItems[index].item2),
+                                      ItemDetailsView(collectionItem: state.filesAndItems[index].item2),
                                 ));
                                 context.read<CollectionBloc>().add(const LoadCollection());
                               },
